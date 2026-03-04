@@ -1,16 +1,21 @@
 @import "tailwindcss";
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-color: #000000;
+  --background-bg: #F3F4F4;
+  --darkgray: #3C3C3C;
+  --lightgray: #E4EEF1;
+  --darksmoke: #A0A0A0;
+  --smoke: #B8B8B8;
+  --diagonal: #DAE4E7;
+  --purple: #B8A6FF;
+  --pink: #CDA4EB;
+  --blue: #94EEFF;
+  --yellow: #FFECB6
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --font-geist-mono: "Geist_Mono", sans-serif;
 }
 
 html {
@@ -19,17 +24,51 @@ html {
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: var(--foreground-color);
+  background: var(--background-bg);
+  @apply font-inter;
+}
+
+section{
+  @apply flex flex-wrap justify-center px-4;
+  .container{
+    @apply max-w-300 justify-center flex flex-wrap flex-col;
+  }
+}
+
+h1{
+  @apply text-[32px] xl:text-[64px] font-medium tracking-[-0.06em] leading-[1em];
+}
+
+h2{
+  @apply text-sm font-medium uppercase font-geist-mono;
+}
+
+h3{
+  @apply font-inter font-medium tracking-[-0.05em] text-[56px] leading-[1em];
+}
+
+h4{
+  @apply font-inter font-medium tracking-[-0.04em] text-[24px] leading-[1em];
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  .bg-diagonal{
+    background: #F3F4F4 repeating-linear-gradient(-45deg, #DAE4E7, #DAE4E7 1px, #F3F4F4 1px, #F3F4F4 8px);
+  }
+  .bg-diagonal-black{
+    background: #000000 repeating-linear-gradient(-45deg, rgb(227, 228, 239,0.04), rgb(227, 228, 239,0.04) 2px, #000000 2px, #000000 10px);
+  }
+
+  .text-gradient{
+    background: linear-gradient(83deg, #CDA4EB 18.28%, #94EEFF 50.92%, #FFECB6 83.57%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
+
