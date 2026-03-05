@@ -11,6 +11,8 @@
     "commit": "git-cz"
   },
   "dependencies": {
+    "@rive-app/react-webgl2": "^4.27.0",
+    "motion": "^12.35.0",
     "next": "16.1.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",

@@ -1,20 +1,27 @@
-import React from 'react'
+'use client'
 import Link from 'next/dist/client/link'
 import Image from 'next/image'
 import Button from '@/components/ui/molecules/Button'
 import { uiData } from '@/content/ui/data'
+import { motion } from 'motion/react'
 
 const Header = () => {
   return (
     <header className="sticky top-0 z-50 flex justify-center">
-      <div className={'pt-8'}>
+      <motion.div
+        initial={{ opacity: 0, y: '-100%' }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: 'easeIn' }}
+        viewport={{ once: true }}
+        className={'pt-8'}
+      >
         <div className={'bg-black rounded-[70px] p-1.5 flex items-center gap-x-8 w-auto'}>
           <div className={'pl-4.5'}>
             <Link href={'/'}>
               <Image src={'evolve-logo.svg'} alt={'Evolve'} width={100} height={25} />
             </Link>
           </div>
-          <div className={'flex items-center gap-x-5'}>
+          <div className={'items-center gap-x-5 hidden md:flex'}>
             {uiData.nav.map((item, index) => (
               <Link
                 key={index}
@@ -31,7 +38,7 @@ const Header = () => {
             </Link>
           </div>
         </div>
-      </div>
+      </motion.div>
     </header>
   )
 }

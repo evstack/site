@@ -1,25 +1,35 @@
+'use client'
 import { content } from '@/content/homepage/data'
 import Badge from '@/components/ui/atoms/Badge'
 import Layers from '@/components/ui/organisms/Layers'
+import { motion } from 'motion/react'
 
 const CodeBlock = ({ code }: { code: any }) => {
   return (
-    <div className={'relative flex flex-wrap gap-y-7.5'}>
+    <div className={'relative flex flex-wrap gap-y-4 md:gap-y-7.5'}>
       <div
         className={
-          'grid grid-cols-1 gap-y-2 p-8 bg-[#101010] border border-[#252525] rounded-2xl flex-none'
+          'grid grid-cols-1 gap-2 p-8 bg-[#101010] border border-[#252525] rounded-2xl md:flex-none'
         }
       >
         <div className={'text-(--darksmoke) text-sm leading-[1.5em]'}>{code.text}</div>
-        <div className={'flex gap-x-2 items-center'}>
+        <div className={'flex flex-wrap gap-2 items-center'}>
           {code.badge && <Badge>{code.badge}</Badge>}
-          <div className={'text-white text-sm leading-[1.5em] font-geist-mono'}>{code.code}</div>
+          <div className={'text-white text-xs md:text-sm leading-[1.5em] font-geist-mono'}>
+            {code.code}
+          </div>
         </div>
       </div>
       {code.child && (
-        <div className={'relative pl-8'}>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
+          viewport={{ once: true }}
+          className={'relative md:pl-8'}
+        >
           <svg
-            className={'absolute left-5 -top-7'}
+            className={'absolute left-5 -top-3.5 md:-top-7'}
             xmlns="http://www.w3.org/2000/svg"
             width="17"
             height="67"
@@ -32,7 +42,7 @@ const CodeBlock = ({ code }: { code: any }) => {
             />
           </svg>
           <CodeBlock code={code.child} />
-        </div>
+        </motion.div>
       )}
     </div>
   )
@@ -40,23 +50,39 @@ const CodeBlock = ({ code }: { code: any }) => {
 
 const ArchitectureSection = () => {
   return (
-    <section className={'bg-black py-25'}>
+    <section className={'bg-black py-13 md:py-25 overflow-hidden'}>
       <div className={'container'}>
         <div className={'flex flex-col gap-y-2'}>
           <div className={'text-center'}>
-            <h2 className={'text-(--smoke)'}>{content.architectureSection.subtitle}</h2>
+            <motion.h2
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
+              viewport={{ once: true }}
+              className={'text-(--smoke)'}
+            >
+              {content.architectureSection.subtitle}
+            </motion.h2>
           </div>
           <div className={'text-center'}>
-            <h3 className={'text-white'}>{content.architectureSection.title}</h3>
+            <motion.h3
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              viewport={{ once: true }}
+              className={'text-white'}
+            >
+              {content.architectureSection.title}
+            </motion.h3>
           </div>
         </div>
 
-        <div className={'flex gap-x-25 mt-12 items-center'}>
-          <div className={'w-6/12'}>
+        <div className={'flex flex-wrap gap-x-25 mt-12 items-center'}>
+          <div className={'w-full md:w-6/12'}>
             <Layers />
           </div>
-          <div className={'w-6/12'}>
-            <div className={'w-full p-8 bg-diagonal-black'}>
+          <div className={'w-full md:w-6/12'}>
+            <div className={'w-full max-md:py-4 md:p-8 bg-diagonal-black'}>
               <CodeBlock code={content.architectureSection.codeblocks} />
             </div>
           </div>

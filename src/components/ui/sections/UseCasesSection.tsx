@@ -1,60 +1,116 @@
+'use client'
 import React, { Fragment } from 'react'
 import { content } from '@/content/homepage/data'
 import Link from 'next/dist/client/link'
 import Button from '@/components/ui/molecules/Button'
 import Image from 'next/image'
+import { motion } from 'motion/react'
 
 const UseCasesSection = () => {
   return (
-    <section className={'py-25'}>
+    <section className={'py-12 md:py-25'}>
       <div className={'container'}>
         <div className={'grid grid-cols-24'}>
-          <div className={'col-span-8'}>
+          <div className={'col-span-24 md:col-span-8 max-md:pb-12'}>
             <div className={'flex flex-wrap h-full'}>
               <div className={'flex flex-col gap-y-2'}>
                 <div className={'text-left'}>
-                  <h2 className={''}>{content.useCasesSection.subtitle}</h2>
+                  <motion.h2
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
+                    viewport={{ once: true }}
+                    className={''}
+                  >
+                    {content.useCasesSection.subtitle}
+                  </motion.h2>
                 </div>
                 <div className={'text-left'}>
-                  <h3 className={''}>{content.useCasesSection.title}</h3>
+                  <motion.h3
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    viewport={{ once: true }}
+                    className={''}
+                  >
+                    {content.useCasesSection.title}
+                  </motion.h3>
                 </div>
-                <div className={'pt-6'}>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.5 }}
+                  viewport={{ once: true }}
+                  className={'pt-4 md:pt-6'}
+                >
                   <Link href={content.useCasesSection.cta.href}>
                     <Button>{content.useCasesSection.cta.text}</Button>
                   </Link>
-                </div>
+                </motion.div>
               </div>
-              <div className={'self-end'}>
+              <div className={'self-end max-md:pt-12'}>
                 <div className={'flex gap-x-8'}>
                   {content.useCasesSection.stats.map((stat, index) => (
                     <div key={index} className={'flex flex-col flex-wrap gap-y-2'}>
-                      <div className={'mb-6'}>{stat.icon}</div>
-                      <div className={'text-[56px] font-medium tracking-[-0.08em] leading-[0.9em]'}>
-                        {stat.text}
-                      </div>
-                      <div
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 + index * 0.1 }}
+                        viewport={{ once: true }}
+                        className={'mb-6 origin-center'}
+                      >
+                        {stat.icon}
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 + index * 0.1 }}
+                        viewport={{ once: true }}
                         className={
-                          'text-sm font-geist-mono font-medium uppercase text-(--darkgray)'
+                          'text-[42px] md:text-[56px] font-medium tracking-[-0.08em] leading-[0.9em]'
+                        }
+                      >
+                        {stat.text}
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 + index * 0.1 }}
+                        viewport={{ once: true }}
+                        className={
+                          'text-xs md:text-sm font-geist-mono font-medium uppercase text-(--darkgray)'
                         }
                       >
                         {stat.title}
-                      </div>
+                      </motion.div>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
           </div>
-          <div className={'col-[11/span_14]'}>
+          <div className={'col-span-24 md:col-[11/span_14]'}>
             <div className={'grid grid-cols-1 md:grid-cols-2 gap-1'}>
-              <div>
+              <div className={'flex flex-col max-md:gap-y-1'}>
                 {content.useCasesSection.boxes
                   .filter((_, index) => index % 2 === 0)
                   .map((box, index) => (
                     <Fragment key={index}>
-                      <div className={'w-full rounded-2xl bg-diagonal aspect-39/10'} />
+                      <motion.div
+                        initial={{ aspectRatio: '39/0' }}
+                        whileInView={{ aspectRatio: '39/10' }}
+                        transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
+                        viewport={{ once: true }}
+                        className={'w-full rounded-2xl bg-diagonal hidden md:block'}
+                      />
                       <div className={'p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap'}>
-                        <div className={'flex items-center justify-center mx-auto'}>
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
+                          viewport={{ once: true }}
+                          className={'flex items-center justify-center mx-auto'}
+                        >
                           {box.animation && (
                             <Image
                               src={box.animation}
@@ -64,22 +120,44 @@ const UseCasesSection = () => {
                               className={'max-h-37.5 w-auto'}
                             />
                           )}
-                        </div>
+                        </motion.div>
                         <div className={'self-end'}>
-                          <h4 className={'mb-2'}>{box.title}</h4>
-                          <p className={'text-sm text-(--darkgray) leading-[1.71em]'}>{box.text}</p>
+                          <motion.h4
+                            initial={{ opacity: 0, x: 10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0 }}
+                            viewport={{ once: true }}
+                            className={'mb-2'}
+                          >
+                            {box.title}
+                          </motion.h4>
+                          <motion.p
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.1 }}
+                            viewport={{ once: true }}
+                            className={'text-sm text-(--darkgray) leading-[1.71em]'}
+                          >
+                            {box.text}
+                          </motion.p>
                         </div>
                       </div>
                     </Fragment>
                   ))}
               </div>
-              <div>
+              <div className={'flex flex-col max-md:gap-y-1'}>
                 {content.useCasesSection.boxes
                   .filter((_, index) => index % 2 === 1)
                   .map((box, index) => (
                     <Fragment key={index}>
                       <div className={'p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap'}>
-                        <div className={'flex items-center justify-center mx-auto'}>
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
+                          viewport={{ once: true }}
+                          className={'flex items-center justify-center mx-auto'}
+                        >
                           {box.animation && (
                             <Image
                               src={box.animation}
@@ -89,13 +167,35 @@ const UseCasesSection = () => {
                               className={'max-h-37.5 w-auto'}
                             />
                           )}
-                        </div>
+                        </motion.div>
                         <div className={'self-end'}>
-                          <h4 className={'mb-2'}>{box.title}</h4>
-                          <p className={'text-sm text-(--darkgray) leading-[1.71em]'}>{box.text}</p>
+                          <motion.h4
+                            initial={{ opacity: 0, x: 10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0 }}
+                            viewport={{ once: true }}
+                            className={'mb-2'}
+                          >
+                            {box.title}
+                          </motion.h4>
+                          <motion.p
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.1 }}
+                            viewport={{ once: true }}
+                            className={'text-sm text-(--darkgray) leading-[1.71em]'}
+                          >
+                            {box.text}
+                          </motion.p>
                         </div>
                       </div>
-                      <div className={'w-full rounded-2xl bg-diagonal aspect-39/10'} />
+                      <motion.div
+                        initial={{ aspectRatio: '39/0' }}
+                        whileInView={{ aspectRatio: '39/10' }}
+                        transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
+                        viewport={{ once: true }}
+                        className={'w-full rounded-2xl bg-diagonal hidden md:block'}
+                      />
                     </Fragment>
                   ))}
               </div>

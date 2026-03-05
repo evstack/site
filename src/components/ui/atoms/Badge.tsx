@@ -20,7 +20,7 @@ const Badge = ({ children, variant = 'primary' }: BadgeProps) => {
   return (
     <div
       className={twMerge(
-        'p-2 rounded-3xl shrink-0 border font-geist-mono text-sm',
+        'p-2 rounded-3xl shrink-0 border font-geist-mono text-xs md:text-sm',
         badgeClassByVariant(variant)
       )}
     >

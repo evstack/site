@@ -1,34 +1,61 @@
-import React from 'react'
+'use client'
 import { content } from '@/content/homepage/data'
 import Link from 'next/dist/client/link'
 import Button from '@/components/ui/molecules/Button'
 import Image from 'next/image'
+import { motion } from 'motion/react'
 
 const HomeHeroSection = () => {
   return (
-    <section className={'pt-8 pb-13'}>
+    <section className={'pt-8 pb-8 md:pb-13'}>
       <div className={'container'}>
         <div className={'flex justify-center flex-col gap-y-6'}>
-          <div className={'flex justify-center'}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.1 }}
+            viewport={{ once: true }}
+            className={'flex justify-center'}
+          >
             <Image src={'/header-image.png'} alt={'Evolve'} width={980} height={350} />
+          </motion.div>
+          <div className={'flex justify-center'}>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
+              viewport={{ once: true }}
+              className={'max-w-200 text-center'}
+            >
+              {content.hero.title}
+            </motion.h1>
           </div>
           <div className={'flex justify-center'}>
-            <h1 className={'max-w-200 text-center'}>{content.hero.title}</h1>
-          </div>
-          <div className={'flex justify-center'}>
-            <p className={'max-w-155 text-center text-(--darkgray) font-geist'}>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
+              viewport={{ once: true }}
+              className={'max-w-155 text-center text-(--darkgray) font-geist'}
+            >
               {content.hero.text}
-            </p>
+            </motion.p>
           </div>
         </div>
         <div className={'flex justify-center mt-8'}>
-          <div className={'flex justify-between gap-x-4'}>
+          <div className={'flex flex-wrap justify-center gap-4'}>
             {content.hero.cta.map((cta, index) => (
-              <div key={index}>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.5, ease: 'easeInOut', delay: index * 0.1 + 0.3 }}
+                viewport={{ once: true }}
+              >
                 <Link href={cta.href}>
                   <Button variant={cta.variant}>{cta.text}</Button>
                 </Link>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
