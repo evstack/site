@@ -67,7 +67,7 @@ const UseCasesSection = () => {
                         transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 + index * 0.1 }}
                         viewport={{ once: true }}
                         className={
-                          'text-[42px] md:text-[56px] font-medium tracking-[-0.08em] leading-[0.9em]'
+                          'text-[42px] lg:text-[56px] font-medium tracking-[-0.08em] leading-[0.9em]'
                         }
                       >
                         {stat.text}
@@ -103,7 +103,11 @@ const UseCasesSection = () => {
                         viewport={{ once: true }}
                         className={'w-full rounded-2xl bg-diagonal hidden md:block'}
                       />
-                      <div className={'p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap'}>
+                      <div
+                        className={
+                          'p-8 md:p-4 lg:p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap'
+                        }
+                      >
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
@@ -136,7 +140,9 @@ const UseCasesSection = () => {
                             whileInView={{ opacity: 1 }}
                             transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.1 }}
                             viewport={{ once: true }}
-                            className={'text-sm text-(--darkgray) leading-[1.71em]'}
+                            className={
+                              'text-sm md:text-xs lg:text-sm text-(--darkgray) leading-[1.71em]'
+                            }
                           >
                             {box.text}
                           </motion.p>
@@ -150,7 +156,11 @@ const UseCasesSection = () => {
                   .filter((_, index) => index % 2 === 1)
                   .map((box, index) => (
                     <Fragment key={index}>
-                      <div className={'p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap'}>
+                      <div
+                        className={
+                          'p-8 md:p-4 lg:p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap'
+                        }
+                      >
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
@@ -183,7 +193,9 @@ const UseCasesSection = () => {
                             whileInView={{ opacity: 1 }}
                             transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.1 }}
                             viewport={{ once: true }}
-                            className={'text-sm text-(--darkgray) leading-[1.71em]'}
+                            className={
+                              'text-sm md:text-xs lg:text-sm text-(--darkgray) leading-[1.71em]'
+                            }
                           >
                             {box.text}
                           </motion.p>

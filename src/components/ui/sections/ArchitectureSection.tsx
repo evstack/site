@@ -50,7 +50,7 @@ const CodeBlock = ({ code }: { code: any }) => {
 
 const ArchitectureSection = () => {
   return (
-    <section className={'bg-black py-13 md:py-25 overflow-hidden'}>
+    <section className={'bg-black py-13 lg:py-25 overflow-hidden'}>
       <div className={'container'}>
         <div className={'flex flex-col gap-y-2'}>
           <div className={'text-center'}>
@@ -77,12 +77,16 @@ const ArchitectureSection = () => {
           </div>
         </div>
 
-        <div className={'flex flex-wrap gap-x-25 mt-12 items-center'}>
-          <div className={'w-full md:w-6/12'}>
+        <div
+          className={
+            'flex flex-wrap xl:flex-nowrap max-xl:justify-center gap-x-25 mt-12 items-center'
+          }
+        >
+          <div className={'w-full lg:w-5/12'}>
             <Layers />
           </div>
-          <div className={'w-full md:w-6/12'}>
-            <div className={'w-full max-md:py-4 md:p-8 bg-diagonal-black'}>
+          <div className={'w-full lg:w-7/12'}>
+            <div className={'w-full max-md:py-4 max-lg:py-12 lg:p-8 bg-diagonal-black px-12'}>
               <CodeBlock code={content.architectureSection.codeblocks} />
             </div>
           </div>

@@ -15,7 +15,7 @@ const LogoSection = () => {
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
               viewport={{ once: true }}
-              className={'text-xs! max-md:text-center'}
+              className={'text-xs! max-lg:text-center max-w-100'}
             >
               {content.logoSection.title}
             </motion.h2>
@@ -41,7 +41,7 @@ const LogoSection = () => {
             {content.logoSection.logos.map((logo, index) => (
               <div key={index}>
                 {logo.src && (
-                  <div className={'h-13 w-20 md:w-40'}>
+                  <div className={'h-13 w-20 md:w-32 lg:w-40'}>
                     <Image
                       src={logo.src}
                       alt={logo.alt}

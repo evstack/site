@@ -7,15 +7,19 @@ import { motion } from 'motion/react'
 
 const EcosystemSection = () => {
   return (
-    <section className={'px-0!'}>
+    <section className={'max-lg:px-0! lg:px-4!'}>
       <div
         className={
-          'w-full md:rounded-2xl bg-diagonal-black pt-12 md:pt-25 pb-8 flex justify-center md:mb-4 px-4'
+          'w-full lg:rounded-2xl bg-diagonal-black pt-12 lg:pt-25 pb-8 flex justify-center xl:mb-4 px-4 lg:px-8 xl:px-0'
         }
       >
         <div className={'container'}>
-          <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>
-            <div className={'rounded-3xl bg-[#101010] p-6 max-md:pt-12 md:p-12 flex flex-wrap'}>
+          <div className={'grid grid-cols-1 lg:grid-cols-2 gap-2'}>
+            <div
+              className={
+                'rounded-3xl bg-[#101010] p-6 max-lg:pt-12 lg:p-12 flex flex-wrap justify-center'
+              }
+            >
               <div>
                 <div className={'grid grid-cols-1 gap-1'}>
                   <div className={''}>
@@ -63,12 +67,12 @@ const EcosystemSection = () => {
                       >
                         <p
                           className={
-                            'col-span-4 text-white text-base font-semibold tracking-[-0.04em] pl-4 md:pl-8 py-4.5'
+                            'col-span-4 text-white text-base font-semibold tracking-[-0.04em] pl-4 lg:pl-8 py-4.5'
                           }
                         >
                           {row.title}
                         </p>
-                        <p className={'col-span-8 text-[#C8C8C8] text-sm pl-4 md:pl-8'}>
+                        <p className={'col-span-8 text-[#C8C8C8] text-sm pl-4 lg:pl-8'}>
                           {row.text}
                         </p>
                       </div>
@@ -77,7 +81,7 @@ const EcosystemSection = () => {
                 </div>
               </div>
 
-              <div className={'self-end mt-6 md:mt-0'}>
+              <div className={'self-end mt-6 lg:mt-0'}>
                 <div className={'flex flex-wrap gap-4 self-end'}>
                   {content.ecosytemSection.cta.map((cta, index) => (
                     <motion.div
@@ -113,15 +117,15 @@ const EcosystemSection = () => {
                 </div>
               </div>
             </div>
-            <div className={'rounded-3xl bg-[#101010] p-6 md:p-12'}>
+            <div className={'rounded-3xl bg-[#101010] p-6 lg:p-12 xl:p-8'}>
               <div className={'flex flex-wrap gap-y-4'}>
-                <div className={'w-full flex justify-center pt-8 md:pt-13'}>
+                <div className={'w-full flex justify-center pt-8 lg:pt-13'}>
                   <Image src={'evolve-logo.svg'} alt={'Evolve'} width={154} height={38} />
                 </div>
                 <div className={'w-full pt-6'}>
                   <h3
                     className={
-                      'text-[32px]! md:text-[48px]! font-semibold! leading-[1.04em]! tracking-[-0.04em]! bg-linear-to-r from-(--purple) via-(--blue) to-(--yellow) text-transparent bg-clip-text bg-300% animate-gradient text-center'
+                      'text-[32px]! lg:text-[48px]! font-semibold! leading-[1.04em]! tracking-[-0.04em]! bg-linear-to-r from-(--purple) via-(--blue) to-(--yellow) text-transparent bg-clip-text bg-300% animate-gradient text-center'
                     }
                   >
                     {content.ecosytemSection.deploy.title}
@@ -130,7 +134,7 @@ const EcosystemSection = () => {
                 <div className={'w-full'}>
                   <p
                     className={
-                      'text-base md:text-[18px] text-[#c8c8c8] leading-[1.22em] tracking-[-0.02em] font-medium text-center'
+                      'text-base lg:text-[18px] text-[#c8c8c8] leading-[1.22em] tracking-[-0.02em] font-medium text-center'
                     }
                   >
                     {content.ecosytemSection.deploy.text}
@@ -144,12 +148,12 @@ const EcosystemSection = () => {
 
                 <div
                   className={
-                    'w-full justify-center flex flex-wrap gap-x-4 gap-y-4 md:gap-x-8 mt-10 md:mt-20'
+                    'w-full justify-center flex flex-wrap gap-x-4 gap-y-4 lg:gap-x-8 mt-10 lg:mt-20'
                   }
                 >
                   {content.ecosytemSection.deploy.socials.map((social, index) => (
                     <a key={index} href={social.href} target="_blank">
-                      <div className={'flex gap-x-2 md:gap-x-3 text-white items-center'}>
+                      <div className={'flex gap-x-2 lg:gap-x-3 text-white items-center'}>
                         <motion.div
                           initial={{ scale: 0 }}
                           whileInView={{ scale: 1 }}
@@ -182,13 +186,13 @@ const EcosystemSection = () => {
             </div>
           </div>
           <div className={'w-full text-[#C8C8C8] text-sm py-4'}>
-            <div className={'flex flex-wrap justify-between max-md:text-center'}>
-              <div className={'w-full md:w-auto'}>
+            <div className={'flex flex-wrap justify-between max-lg:text-center'}>
+              <div className={'w-full lg:w-auto'}>
                 <div className={'flex flex-wrap gap-x-6'}>
-                  <div className={'w-full md:w-auto'}>
+                  <div className={'w-full lg:w-auto'}>
                     <p>{content.ecosytemSection.copyright}</p>
                   </div>
-                  <div className={'w-full md:w-auto'}>
+                  <div className={'w-full lg:w-auto'}>
                     {content.ecosytemSection.links.map((link, index) => (
                       <a key={index} href={link.href} target="_blank">
                         {index !== 0 && <span className={'px-2'}>·</span>}
@@ -198,7 +202,7 @@ const EcosystemSection = () => {
                   </div>
                 </div>
               </div>
-              <div className={'w-full md:w-auto pt-4 md:pt-0'}>
+              <div className={'w-full lg:w-auto pt-4 lg:pt-0'}>
                 Created by{' '}
                 <a href="https://www.designatives.com" target="_blank">
                   Designatives

@@ -46,7 +46,7 @@ const ComparisonSection = () => {
         <div className={'w-full pt-12'}>
           <div
             className={
-              'md:bg-diagonal md:rounded-xlmd:p-4 md:border md:border-(--diagonal) overflow-scroll'
+              'bg-diagonal md:rounded-xl md:p-1 lg:p-4 md:border md:border-(--diagonal) overflow-scroll'
             }
           >
             <div
@@ -75,7 +75,7 @@ const ComparisonSection = () => {
                         transition={{ duration: 0.5, ease: 'easeInOut', delay: index * 0.1 }}
                         viewport={{ once: true }}
                         className={
-                          'text-base! md:text-[20px]! font-semibold! font-inter text-black bg-white px-6 py-5 rounded-xl shadow-sm m-1 flex items-center gap-x-4'
+                          'text-base! lg:text-[20px]! font-semibold! font-inter text-black bg-white px-6 py-5 rounded-xl shadow-sm m-1 flex items-center gap-x-4'
                         }
                       >
                         {column.icon && (
@@ -96,7 +96,7 @@ const ComparisonSection = () => {
                             'flex items-center h-14 px-6 odd:bg-white/50 border-b border-(--lightgray) last:border-none'
                           }
                         >
-                          <p className={`text-xs md:text-sm`}>{row}</p>
+                          <p className={`text-xs lg:text-sm line-clamp-2`}>{row}</p>
                         </motion.div>
                       ))}
                     </div>
