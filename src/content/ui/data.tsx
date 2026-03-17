@@ -8,19 +8,23 @@ export const uiData = {
   nav: [
     {
       text: 'Value Prop',
-      href: '/'
+      href: '#value-prop',
+      sectionId: 'value-prop'
     },
     {
       text: 'Architecture',
-      href: '/'
+      href: '#architecture',
+      sectionId: 'architecture'
     },
     {
       text: 'Comparison',
-      href: '/'
+      href: '#comparison',
+      sectionId: 'comparison'
     },
     {
       text: 'Ecosystem',
-      href: '/'
+      href: '#ecosystem',
+      sectionId: 'ecosystem'
     }
   ]
 }

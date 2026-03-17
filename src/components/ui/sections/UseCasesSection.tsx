@@ -110,7 +110,7 @@ const UseCasesSection = () => {
                           }
                         >
                           {box.animation && (
-                            <div className={'aspect-120/80 w-full'}>
+                            <div className={'aspect-40/20 w-full'}>
                               <Animation
                                 artboard={box.animation.artboard}
                                 stateMachine={box.animation.stateMachine}
@@ -160,7 +160,7 @@ const UseCasesSection = () => {
                           }
                         >
                           {box.animation && (
-                            <div className={'aspect-120/80 w-full'}>
+                            <div className={'aspect-40/20 w-full'}>
                               <Animation
                                 artboard={box.animation.artboard}
                                 stateMachine={box.animation.stateMachine}

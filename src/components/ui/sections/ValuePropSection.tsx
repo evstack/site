@@ -9,7 +9,7 @@ const ValuePropSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   return (
-    <section className={'pt-8 md:pt-13 pb-13 md:pb-25'}>
+    <section id="value-prop" className={'pt-8 md:pt-13 pb-13 md:pb-25'}>
       <div className={'container'}>
         <div className={'flex flex-col gap-y-2'}>
           <div className={'text-center'}>
@@ -57,7 +57,7 @@ const ValuePropSection = () => {
                 autoPlay={true}
                 loop={true}
                 muted={true}
-                className={'w-full h-full object-cover'}
+                className={'w-full h-full object-cover pointer-events-none'}
               />
             </div>
           </div>

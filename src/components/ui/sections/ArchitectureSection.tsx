@@ -50,7 +50,7 @@ const CodeBlock = ({ code }: { code: any }) => {
 
 const ArchitectureSection = () => {
   return (
-    <section className={'bg-black py-13 lg:py-25 overflow-hidden'}>
+    <section id={'architecture'} className={'bg-black py-13 lg:py-25 overflow-hidden'}>
       <div className={'container'}>
         <div className={'flex flex-col gap-y-2'}>
           <div className={'text-center'}>

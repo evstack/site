@@ -7,7 +7,7 @@ import { motion } from 'motion/react'
 
 const EcosystemSection = () => {
   return (
-    <section className={'max-lg:px-0! lg:px-4!'}>
+    <section id="ecosystem" className={'max-lg:px-0! lg:px-4!'}>
       <div
         className={
           'w-full lg:rounded-2xl bg-diagonal-black pt-12 lg:pt-25 pb-8 flex justify-center xl:mb-4 px-4 lg:px-8 xl:px-0'

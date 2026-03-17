@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge'
 
 const ComparisonSection = () => {
   return (
-    <section className={'py-12 md:py-25 max-md:px-0! overflow-hidden'}>
+    <section id="comparison" className={'py-12 md:py-25 max-md:px-0! overflow-hidden'}>
       <div className={'container'}>
         <div className={'flex flex-col gap-y-2 max-md:px-4'}>
           <div className={''}>
