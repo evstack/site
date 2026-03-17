@@ -7,6 +7,8 @@ interface AnimationProps {
   artboard: string
   stateMachine: string
   src?: string
+  // eslint-disable-next-line no-unused-vars
+  setActiveLayer: (activeLayer: number) => void
   activeLayer: number
 }
 
@@ -14,9 +16,11 @@ const ArchitectureAnimation = ({
   artboard,
   stateMachine,
   src = '/animations/evolve_site_animations.riv',
+  setActiveLayer,
   activeLayer
 }: AnimationProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
+  const lastRiveValueRef = useRef<number | null>(null)
 
   const { rive, RiveComponent } = useRive({
     src,
@@ -36,8 +40,33 @@ const ArchitectureAnimation = ({
     if (riveIndexNum) {
       // eslint-disable-next-line react-hooks/immutability
       riveIndexNum.value = activeLayer
+      lastRiveValueRef.current = activeLayer
     }
   }, [activeLayer, riveIndexNum])
+
+  useEffect(() => {
+    if (!rive || !riveIndexNum) return
+
+    let frameId = 0
+
+    const syncFromRive = () => {
+      const nextValue = Number(riveIndexNum.value)
+
+      if (!Number.isNaN(nextValue) && nextValue !== lastRiveValueRef.current) {
+        lastRiveValueRef.current = nextValue
+
+        if (nextValue !== activeLayer) {
+          setActiveLayer(nextValue)
+        }
+      }
+
+      frameId = window.requestAnimationFrame(syncFromRive)
+    }
+
+    frameId = window.requestAnimationFrame(syncFromRive)
+
+    return () => window.cancelAnimationFrame(frameId)
+  }, [rive, riveIndexNum, activeLayer, setActiveLayer])
 
   return (
     <div ref={containerRef} className="w-full h-full">

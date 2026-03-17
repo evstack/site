@@ -1,5 +1,5 @@
 'use client'
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { content } from '@/content/homepage/data'
 import Link from 'next/dist/client/link'
 import Button from '@/components/ui/molecules/Button'
@@ -7,6 +7,19 @@ import { motion } from 'motion/react'
 import Animation from '@/components/ui/molecules/Animation'
 
 const UseCasesSection = () => {
+  const [completedAnimations, setCompletedAnimations] = useState<Record<string, boolean>>({})
+
+  const markAnimationComplete = (key: string) => {
+    setCompletedAnimations((prev) => {
+      if (prev[key]) return prev
+
+      return {
+        ...prev,
+        [key]: true
+      }
+    })
+  }
+
   return (
     <section className={'py-12 md:py-25'}>
       <div className={'container'}>
@@ -94,108 +107,138 @@ const UseCasesSection = () => {
               <div className={'flex flex-col max-md:gap-y-1'}>
                 {content.useCasesSection.boxes
                   .filter((_, index) => index % 2 === 0)
-                  .map((box, index) => (
-                    <Fragment key={index}>
-                      <div
-                        className={'w-full rounded-2xl bg-diagonal hidden md:block aspect-39/10'}
-                      />
-                      <div
-                        className={
-                          'p-8 md:p-4 lg:p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap'
-                        }
-                      >
+                  .map((box, index) => {
+                    const animationKey = `left-${index}`
+
+                    return (
+                      <Fragment key={index}>
+                        <div
+                          className={'w-full rounded-2xl bg-diagonal hidden md:block aspect-39/10'}
+                        />
                         <motion.div
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{
+                            duration: 0.5,
+                            type: 'spring',
+                            bounce: 0.1,
+                            delay: 0.2 + index * 0.1
+                          }}
+                          viewport={{ once: true }}
+                          onAnimationComplete={() => markAnimationComplete(animationKey)}
                           className={
-                            'flex flex-1 items-center justify-center mx-auto max-w-full overflow-hidden'
+                            'p-8 md:p-4 lg:p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap'
                           }
                         >
-                          {box.animation && (
-                            <div className={'aspect-40/20 w-full'}>
-                              <Animation
-                                artboard={box.animation.artboard}
-                                stateMachine={box.animation.stateMachine}
-                              />
-                            </div>
-                          )}
-                        </motion.div>
-                        <div className={'self-end'}>
-                          <motion.h4
-                            initial={{ opacity: 0, x: 10 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0 }}
-                            viewport={{ once: true }}
-                            className={'mb-2'}
-                          >
-                            {box.title}
-                          </motion.h4>
-                          <motion.p
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.1 }}
-                            viewport={{ once: true }}
+                          <div
                             className={
-                              'text-sm md:text-xs lg:text-sm text-(--darkgray) leading-[1.71em]'
+                              'flex flex-1 items-center justify-center mx-auto max-w-full overflow-hidden'
                             }
                           >
-                            {box.text}
-                          </motion.p>
-                        </div>
-                      </div>
-                    </Fragment>
-                  ))}
+                            {box.animation && (
+                              <div className={'aspect-40/20 w-full'}>
+                                <Animation
+                                  artboard={box.animation.artboard}
+                                  stateMachine={box.animation.stateMachine}
+                                  isMotionComplete={!!completedAnimations[animationKey]}
+                                />
+                              </div>
+                            )}
+                          </div>
+                          <div className={'self-end'}>
+                            <motion.h4
+                              initial={{ opacity: 0, x: 10 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.5, ease: 'easeInOut', delay: 0 }}
+                              viewport={{ once: true }}
+                              className={'mb-2'}
+                            >
+                              {box.title}
+                            </motion.h4>
+                            <motion.p
+                              initial={{ opacity: 0 }}
+                              whileInView={{ opacity: 1 }}
+                              transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.1 }}
+                              viewport={{ once: true }}
+                              className={
+                                'text-sm md:text-xs lg:text-sm text-(--darkgray) leading-[1.71em]'
+                              }
+                            >
+                              {box.text}
+                            </motion.p>
+                          </div>
+                        </motion.div>
+                      </Fragment>
+                    )
+                  })}
               </div>
               <div className={'flex flex-col max-md:gap-y-1'}>
                 {content.useCasesSection.boxes
                   .filter((_, index) => index % 2 === 1)
-                  .map((box, index) => (
-                    <Fragment key={index}>
-                      <div
-                        className={
-                          'p-8 md:p-4 lg:p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap'
-                        }
-                      >
+                  .map((box, index) => {
+                    const animationKey = `right-${index}`
+
+                    return (
+                      <Fragment key={index}>
                         <motion.div
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{
+                            duration: 0.5,
+                            type: 'spring',
+                            bounce: 0.1,
+                            delay: 0.2 + index * 0.1
+                          }}
+                          viewport={{ once: true }}
+                          onAnimationComplete={() => markAnimationComplete(animationKey)}
                           className={
-                            'flex flex-1 items-center justify-center mx-auto overflow-hidden'
+                            'p-8 md:p-4 lg:p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap'
                           }
                         >
-                          {box.animation && (
-                            <div className={'aspect-40/20 w-full'}>
-                              <Animation
-                                artboard={box.animation.artboard}
-                                stateMachine={box.animation.stateMachine}
-                              />
-                            </div>
-                          )}
-                        </motion.div>
-                        <div className={'self-end'}>
-                          <motion.h4
-                            initial={{ opacity: 0, x: 10 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0 }}
-                            viewport={{ once: true }}
-                            className={'mb-2'}
-                          >
-                            {box.title}
-                          </motion.h4>
-                          <motion.p
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.1 }}
-                            viewport={{ once: true }}
+                          <motion.div
                             className={
-                              'text-sm md:text-xs lg:text-sm text-(--darkgray) leading-[1.71em]'
+                              'flex flex-1 items-center justify-center mx-auto overflow-hidden'
                             }
                           >
-                            {box.text}
-                          </motion.p>
-                        </div>
-                      </div>
-                      <div
-                        className={'w-full rounded-2xl bg-diagonal hidden md:block aspect-39/10'}
-                      />
-                    </Fragment>
-                  ))}
+                            {box.animation && (
+                              <div className={'aspect-40/20 w-full'}>
+                                <Animation
+                                  artboard={box.animation.artboard}
+                                  stateMachine={box.animation.stateMachine}
+                                  isMotionComplete={!!completedAnimations[animationKey]}
+                                />
+                              </div>
+                            )}
+                          </motion.div>
+                          <div className={'self-end'}>
+                            <motion.h4
+                              initial={{ opacity: 0, x: 10 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.5, ease: 'easeInOut', delay: 0 }}
+                              viewport={{ once: true }}
+                              className={'mb-2'}
+                            >
+                              {box.title}
+                            </motion.h4>
+                            <motion.p
+                              initial={{ opacity: 0 }}
+                              whileInView={{ opacity: 1 }}
+                              transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.1 }}
+                              viewport={{ once: true }}
+                              className={
+                                'text-sm md:text-xs lg:text-sm text-(--darkgray) leading-[1.71em]'
+                              }
+                            >
+                              {box.text}
+                            </motion.p>
+                          </div>
+                        </motion.div>
+                        <div
+                          className={'w-full rounded-2xl bg-diagonal hidden md:block aspect-39/10'}
+                        />
+                      </Fragment>
+                    )
+                  })}
               </div>
             </div>
           </div>

@@ -94,6 +94,7 @@ const Layers = () => {
         <div className={'w-full aspect-square'}>
           <ArchitectureAnimation
             activeLayer={activeLayer}
+            setActiveLayer={setActiveLayer}
             artboard={'STACKS'}
             stateMachine={'State Machine 1'}
           />

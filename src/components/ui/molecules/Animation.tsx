@@ -7,12 +7,14 @@ interface AnimationProps {
   artboard: string
   stateMachine: string
   src?: string
+  isMotionComplete?: boolean
 }
 
 const Animation = ({
   artboard,
   stateMachine,
-  src = '/animations/evolve_site_animations.riv'
+  src = '/animations/evolve_site_animations.riv',
+  isMotionComplete = true
 }: AnimationProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const hasStartedRef = useRef(false)
@@ -34,7 +36,7 @@ const Animation = ({
   useEffect(() => {
     const element = containerRef.current
 
-    if (!element || !animStart || hasStartedRef.current) return
+    if (!isMotionComplete || !element || !animStart || hasStartedRef.current) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -52,7 +54,7 @@ const Animation = ({
     observer.observe(element)
 
     return () => observer.disconnect()
-  }, [animStart])
+  }, [animStart, isMotionComplete])
 
   return (
     <div ref={containerRef} className="w-full h-full">
