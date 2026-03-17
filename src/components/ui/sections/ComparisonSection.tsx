@@ -46,7 +46,7 @@ const ComparisonSection = () => {
         <div className={'w-full pt-12'}>
           <div
             className={
-              'bg-diagonal md:rounded-xl md:p-1 lg:p-4 md:border md:border-(--diagonal) overflow-scroll'
+              'bg-diagonal md:rounded-xl md:p-1 lg:p-4 md:border md:border-(--diagonal) max-md:overflow-x-scroll'
             }
           >
             <div

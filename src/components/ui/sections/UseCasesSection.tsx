@@ -3,8 +3,8 @@ import React, { Fragment } from 'react'
 import { content } from '@/content/homepage/data'
 import Link from 'next/dist/client/link'
 import Button from '@/components/ui/molecules/Button'
-import Image from 'next/image'
 import { motion } from 'motion/react'
+import Animation from '@/components/ui/molecules/Animation'
 
 const UseCasesSection = () => {
   return (
@@ -96,12 +96,8 @@ const UseCasesSection = () => {
                   .filter((_, index) => index % 2 === 0)
                   .map((box, index) => (
                     <Fragment key={index}>
-                      <motion.div
-                        initial={{ aspectRatio: '39/0' }}
-                        whileInView={{ aspectRatio: '39/10' }}
-                        transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
-                        viewport={{ once: true }}
-                        className={'w-full rounded-2xl bg-diagonal hidden md:block'}
+                      <div
+                        className={'w-full rounded-2xl bg-diagonal hidden md:block aspect-39/10'}
                       />
                       <div
                         className={
@@ -109,20 +105,17 @@ const UseCasesSection = () => {
                         }
                       >
                         <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
-                          viewport={{ once: true }}
-                          className={'flex items-center justify-center mx-auto'}
+                          className={
+                            'flex flex-1 items-center justify-center mx-auto max-w-full overflow-hidden'
+                          }
                         >
                           {box.animation && (
-                            <Image
-                              src={box.animation}
-                              alt={box.title}
-                              width={400}
-                              height={400}
-                              className={'max-h-37.5 w-auto'}
-                            />
+                            <div className={'aspect-120/80 w-full'}>
+                              <Animation
+                                artboard={box.animation.artboard}
+                                stateMachine={box.animation.stateMachine}
+                              />
+                            </div>
                           )}
                         </motion.div>
                         <div className={'self-end'}>
@@ -162,20 +155,17 @@ const UseCasesSection = () => {
                         }
                       >
                         <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
-                          viewport={{ once: true }}
-                          className={'flex items-center justify-center mx-auto'}
+                          className={
+                            'flex flex-1 items-center justify-center mx-auto overflow-hidden'
+                          }
                         >
                           {box.animation && (
-                            <Image
-                              src={box.animation}
-                              alt={box.title}
-                              width={400}
-                              height={400}
-                              className={'max-h-37.5 w-auto'}
-                            />
+                            <div className={'aspect-120/80 w-full'}>
+                              <Animation
+                                artboard={box.animation.artboard}
+                                stateMachine={box.animation.stateMachine}
+                              />
+                            </div>
                           )}
                         </motion.div>
                         <div className={'self-end'}>
@@ -201,12 +191,8 @@ const UseCasesSection = () => {
                           </motion.p>
                         </div>
                       </div>
-                      <motion.div
-                        initial={{ aspectRatio: '39/0' }}
-                        whileInView={{ aspectRatio: '39/10' }}
-                        transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
-                        viewport={{ once: true }}
-                        className={'w-full rounded-2xl bg-diagonal hidden md:block'}
+                      <div
+                        className={'w-full rounded-2xl bg-diagonal hidden md:block aspect-39/10'}
                       />
                     </Fragment>
                   ))}

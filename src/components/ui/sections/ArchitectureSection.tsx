@@ -79,7 +79,7 @@ const ArchitectureSection = () => {
 
         <div
           className={
-            'flex flex-wrap xl:flex-nowrap max-xl:justify-center gap-x-25 mt-12 items-center'
+            'flex flex-wrap xl:flex-nowrap max-xl:justify-center gap-x-25 mt-12 items-center w-full'
           }
         >
           <div className={'w-full lg:w-5/12'}>

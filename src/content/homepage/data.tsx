@@ -150,22 +150,42 @@ export const content = {
       {
         title: 'Agent Payments Runtime (x402)',
         text: 'Permissions, spend limits, receipts, and metering built for machine-to-machine payments and auditability.',
-        animation: '/ranger.png'
+        animation: {
+          src: '/animations/evolve_site_animations.riv',
+          artboard: 'REF_01_COMP',
+          stateMachine: 'State Machine 1',
+          viewModelName: 'ViewModel1'
+        }
       },
       {
         title: 'Stablecoin Ops Engine',
         text: 'Routing + approvals + receipts + “repair” workflows + finance-ready exports so operators don’t have to “pick a chain.”',
-        animation: '/stable.png'
+        animation: {
+          src: '/animations/evolve_site_animations.riv',
+          artboard: 'REF_02_COMP',
+          stateMachine: 'State Machine 1',
+          viewModelName: 'ViewModel1'
+        }
       },
       {
         title: 'Always-On Settlement & Collateral',
         text: 'Deterministic processing for 24/7 ops: status tracking, exception handling, and reporting exports.',
-        animation: '/processing.png'
+        animation: {
+          src: '/animations/evolve_site_animations.riv',
+          artboard: 'REF_03_COMP',
+          stateMachine: 'State Machine 1',
+          viewModelName: 'ViewModel1'
+        }
       },
       {
         title: 'Confidential Workflows (Selective Disclosure)',
         text: 'Controlled visibility patterns (who can see what) with audit access without requiring full anonymity.',
-        animation: '/workflow.png'
+        animation: {
+          src: '/animations/evolve_site_animations.riv',
+          artboard: 'REF_04_COMP',
+          stateMachine: 'State Machine 1',
+          viewModelName: 'ViewModel1'
+        }
       }
     ]
   },

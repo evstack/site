@@ -11,9 +11,9 @@ interface ButtonProps {
 const buttonClassByVariant = (variant: string) => {
   switch (variant) {
     case 'primary':
-      return 'bg-black text-white'
+      return 'bg-black text-white hover:bg-(--purple)'
     case 'secondary':
-      return 'bg-gray-200 text-gray-700'
+      return 'bg-gray-200 text-gray-700 hover:bg-(--purple)'
     case 'outline':
       return 'bg-transparent ring ring-black text-black'
     default:

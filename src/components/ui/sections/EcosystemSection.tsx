@@ -81,7 +81,7 @@ const EcosystemSection = () => {
                 </div>
               </div>
 
-              <div className={'self-end mt-6 lg:mt-0'}>
+              <div className={'self-end mt-6 lg:mt-4'}>
                 <div className={'flex flex-wrap gap-4 self-end'}>
                   {content.ecosytemSection.cta.map((cta, index) => (
                     <motion.div
@@ -93,8 +93,12 @@ const EcosystemSection = () => {
                       className={'text-white'}
                     >
                       <Link href={cta.href}>
-                        <div className={'flex items-center gap-2'}>
-                          <span className={'font-geist-mono text-[13px] font-medium uppercase'}>
+                        <div className={'flex items-center gap-2 group'}>
+                          <span
+                            className={
+                              'font-geist-mono text-[13px] font-medium uppercase group-hover:text-(--purple) transition-all ease-in-out duration-300'
+                            }
+                          >
                             {cta.text}
                           </span>
                           <svg
@@ -104,7 +108,15 @@ const EcosystemSection = () => {
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <rect width="24" height="24" rx="12" fill="#1E1E1E" />
+                            <rect
+                              width="24"
+                              height="24"
+                              rx="12"
+                              className={
+                                'fill-[#1e1e1e] transition-all duration-300 ease-in-out group-hover:fill-(--purple)'
+                              }
+                              fill="#1E1E1E"
+                            />
                             <path
                               d="M14.669 10.2722L8.94118 16L8 15.0588L13.7278 9.33103H8.67937V8H16V15.3206H14.669V10.2722Z"
                               fill="white"
@@ -153,14 +165,14 @@ const EcosystemSection = () => {
                 >
                   {content.ecosytemSection.deploy.socials.map((social, index) => (
                     <a key={index} href={social.href} target="_blank">
-                      <div className={'flex gap-x-2 lg:gap-x-3 text-white items-center'}>
+                      <div className={'flex gap-x-2 lg:gap-x-3 text-white items-center group'}>
                         <motion.div
                           initial={{ scale: 0 }}
                           whileInView={{ scale: 1 }}
                           transition={{ duration: 0.5, type: 'spring', delay: 0.2 + index * 0.1 }}
                           viewport={{ once: true }}
                           className={
-                            'w-10 h-10 bg-[#1e1e1e] rounded-full items-center justify-center flex'
+                            'w-10 h-10 bg-[#1e1e1e] rounded-full items-center justify-center flex transition-all duration-300 ease-in-out group-hover:bg-(--purple)'
                           }
                         >
                           {social.icon}
@@ -174,7 +186,9 @@ const EcosystemSection = () => {
                             delay: 0.2 + index * 0.1
                           }}
                           viewport={{ once: true }}
-                          className={'text-sm font-geist-mono font-medium uppercase'}
+                          className={
+                            'text-sm font-geist-mono font-medium uppercase transition-all duration-300 ease-in-out group-hover:text-(--purple)'
+                          }
                         >
                           {social.text}
                         </motion.div>
@@ -203,7 +217,7 @@ const EcosystemSection = () => {
                 </div>
               </div>
               <div className={'w-full lg:w-auto pt-4 lg:pt-0'}>
-                Created by{' '}
+                Website by{' '}
                 <a href="https://www.designatives.com" target="_blank">
                   Designatives
                 </a>

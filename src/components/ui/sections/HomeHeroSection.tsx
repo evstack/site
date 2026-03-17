@@ -2,14 +2,14 @@
 import { content } from '@/content/homepage/data'
 import Link from 'next/dist/client/link'
 import Button from '@/components/ui/molecules/Button'
-import Image from 'next/image'
 import { motion } from 'motion/react'
+import HeaderAnimation from '@/components/ui/molecules/HeaderAnimation'
 
 const HomeHeroSection = () => {
   return (
     <section className={'pt-8 pb-8 md:pb-13'}>
       <div className={'container'}>
-        <div className={'flex justify-center flex-col gap-y-6'}>
+        <div className={'flex justify-center flex-col gap-y-6 w-full'}>
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -17,7 +17,9 @@ const HomeHeroSection = () => {
             viewport={{ once: true }}
             className={'flex justify-center'}
           >
-            <Image src={'/header-image.png'} alt={'Evolve'} width={980} height={350} />
+            <div className={'aspect-120/43 w-full'}>
+              <HeaderAnimation />
+            </div>
           </motion.div>
           <div className={'flex justify-center'}>
             <motion.h1

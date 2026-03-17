@@ -90,3 +90,10 @@ h4{
     background-position: 0% 50%;
   }
 }
+
+.rive-responsive,
+.rive-responsive canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
