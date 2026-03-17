@@ -4,7 +4,7 @@ import { useRive } from '@rive-app/react-webgl2'
 const HeaderAnimation = () => {
   // 1. Initialize useRive with autoBind: false
   const { RiveComponent } = useRive({
-    src: '/animations/hero-animation.riv',
+    src: '/animations/evolve_site_animations.riv',
     artboard: 'HEADER',
     onLoadError: (error) => console.error('Error loading Rive file:', error),
     autoplay: true,

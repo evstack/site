@@ -116,7 +116,7 @@ const UseCasesSection = () => {
                           className={'w-full rounded-2xl bg-diagonal hidden md:block aspect-39/10'}
                         />
                         <motion.div
-                          initial={{ opacity: 0, scale: 0.8 }}
+                          initial={{ opacity: 0, scale: 1.1 }}
                           whileInView={{ opacity: 1, scale: 1 }}
                           transition={{
                             duration: 0.5,
@@ -127,7 +127,7 @@ const UseCasesSection = () => {
                           viewport={{ once: true }}
                           onAnimationComplete={() => markAnimationComplete(animationKey)}
                           className={
-                            'p-8 md:p-4 lg:p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap'
+                            'p-8 md:p-4 lg:p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap transform-gpu will-change-transform'
                           }
                         >
                           <div
@@ -140,7 +140,7 @@ const UseCasesSection = () => {
                                 <Animation
                                   artboard={box.animation.artboard}
                                   stateMachine={box.animation.stateMachine}
-                                  isMotionComplete={!!completedAnimations[animationKey]}
+                                  isMotionComplete={completedAnimations[animationKey]}
                                 />
                               </div>
                             )}
@@ -181,7 +181,7 @@ const UseCasesSection = () => {
                     return (
                       <Fragment key={index}>
                         <motion.div
-                          initial={{ opacity: 0, scale: 0.8 }}
+                          initial={{ opacity: 0, scale: 1.1 }}
                           whileInView={{ opacity: 1, scale: 1 }}
                           transition={{
                             duration: 0.5,
@@ -192,7 +192,7 @@ const UseCasesSection = () => {
                           viewport={{ once: true }}
                           onAnimationComplete={() => markAnimationComplete(animationKey)}
                           className={
-                            'p-8 md:p-4 lg:p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap'
+                            'p-8 md:p-4 lg:p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap transform-gpu will-change-transform'
                           }
                         >
                           <motion.div
@@ -205,7 +205,7 @@ const UseCasesSection = () => {
                                 <Animation
                                   artboard={box.animation.artboard}
                                   stateMachine={box.animation.stateMachine}
-                                  isMotionComplete={!!completedAnimations[animationKey]}
+                                  isMotionComplete={completedAnimations[animationKey]}
                                 />
                               </div>
                             )}

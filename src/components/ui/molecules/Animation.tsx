@@ -58,7 +58,7 @@ const Animation = ({
 
   return (
     <div ref={containerRef} className="w-full h-full">
-      <RiveComponent className="w-full h-full" />
+      <RiveComponent className="w-full h-full transform-gpu" />
     </div>
   )
 }
