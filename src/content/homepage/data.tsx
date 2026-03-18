@@ -381,14 +381,14 @@ export const content = {
     copyright: '© 2026 Evolve / All Right Reserved',
     links: [
       {
-        href: '/',
+        href: '/privacy-policy',
         text: 'Privacy Policy',
-        target: '_blank'
+        target: '_self'
       },
       {
-        href: '/',
+        href: '/terms-and-conditions',
         text: 'Terms of Service',
-        target: '_blank'
+        target: '_self'
       }
     ]
   }

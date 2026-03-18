@@ -208,7 +208,7 @@ const EcosystemSection = () => {
                   </div>
                   <div className={'w-full lg:w-auto'}>
                     {content.ecosytemSection.links.map((link, index) => (
-                      <a key={index} href={link.href} target="_blank">
+                      <a key={index} href={link.href} target={link.target}>
                         {index !== 0 && <span className={'px-2'}>·</span>}
                         {link.text}
                       </a>
