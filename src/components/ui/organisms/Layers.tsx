@@ -21,11 +21,11 @@ const getTopParamByIndex = (index: number) => {
   switch (index) {
     case 0:
     default:
-      return '185px'
+      return '-15px'
     case 1:
-      return '95px'
+      return '-60px'
     case 2:
-      return '0'
+      return '-80px'
   }
 }
 const getHeightByIndex = (index: number) => {
@@ -34,7 +34,7 @@ const getHeightByIndex = (index: number) => {
     default:
       return 400
     case 1:
-      return 450
+      return 445
     case 2:
       return 520
   }
@@ -72,8 +72,8 @@ const Layers = () => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="153"
-          height={height}
-          viewBox={`0 0 153 ${height}`}
+          height="600"
+          viewBox={`0 0 153 600`}
           className={'transition-all ease-in-out duration-300'}
           fill="none"
         >

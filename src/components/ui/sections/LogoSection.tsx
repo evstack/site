@@ -24,8 +24,8 @@ const LogoSection = () => {
       </div>
       <div className={'w-full pt-8 overflow-hidden'}>
         <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
           viewport={{ once: true }}
         >
@@ -36,12 +36,12 @@ const LogoSection = () => {
             loop={0}
             gradient={true}
             gradientColor={'#F3F4F4'}
-            className={'flex gap-x-8'}
+            className={'flex'}
           >
             {content.logoSection.logos.map((logo, index) => (
               <div key={index}>
                 {logo.src && (
-                  <div className={'h-13 w-20 md:w-32 lg:w-40'}>
+                  <div className={'h-13 w-20 md:w-32 lg:w-40 px-4'}>
                     <Image
                       src={logo.src}
                       alt={logo.alt}
