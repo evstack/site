@@ -4,9 +4,14 @@ import { useState } from 'react'
 import { content } from '@/content/homepage/data'
 import FeatureAccordion from '@/components/ui/molecules/FeatureAccordion'
 import { motion } from 'motion/react'
+import ValueAnimation from '@/components/ui/molecules/ValueAnimation'
 
 const ValuePropSection = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const [openIndex, setOpenIndex] = useState<number>(0)
+
+  const overlayColors = ['var(--vid-purple)', 'var(--yellow)', 'var(--blue)', 'var(--vid-grey)']
+  const overlayColor =
+    openIndex !== null ? (overlayColors[openIndex] ?? 'var(--purple)') : 'var(--purple)'
 
   return (
     <section id="value-prop" className={'pt-8 md:pt-13 pb-13 md:pb-25'}>
@@ -34,7 +39,7 @@ const ValuePropSection = () => {
           </div>
         </div>
 
-        <div className={'flex flex-wrap rounded-3xl bg-white mt-12 h-128 overflow-hidden'}>
+        <div className={'flex flex-wrap rounded-3xl bg-white mt-12 md:h-128 overflow-hidden'}>
           <div className={'w-full md:w-1/2 p-8 md:p-16 flex flex-wrap gap-y-0'}>
             {content.valuePropSection.features.map((feature, index) => (
               <FeatureAccordion
@@ -42,16 +47,27 @@ const ValuePropSection = () => {
                 key={index}
                 feature={feature}
                 isOpen={openIndex === index}
-                onToggle={() => setOpenIndex((prev) => (prev === index ? null : index))}
+                onToggle={() => setOpenIndex(() => index || 0)}
               />
             ))}
           </div>
 
-          <div className={'w-full md:w-1/2'}>
+          <div className={'w-full md:w-1/2 hidden md:block'}>
             <div className={'w-full h-full relative max-md:aspect-square'}>
               <div
-                className={'absolute top-0 left-0 w-full h-full bg-(--purple) mix-blend-overlay'}
+                className={
+                  'absolute top-0 left-0 w-full h-full mix-blend-overlay transition-all ease-in-out duration-500'
+                }
+                style={{ backgroundColor: overlayColor }}
               />
+              <div className={'w-full h-full absolute top-0 left-0'}>
+                <ValueAnimation
+                  artboard={'ValueSection'}
+                  stateMachine={'State Machine 1'}
+                  activeLayer={openIndex}
+                  setActiveLayer={setOpenIndex}
+                />
+              </div>
               <video
                 src={'/videos/value-video.mp4'}
                 autoPlay={true}

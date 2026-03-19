@@ -1,5 +1,6 @@
 'use client'
 import { motion } from 'motion/react'
+import ValueAnimationInAccordion from '@/components/ui/molecules/ValueAnimationInAccordion'
 
 interface FeatureAccordionProps {
   feature: {
@@ -55,6 +56,13 @@ const FeatureAccordion = ({ feature, isOpen, onToggle, index }: FeatureAccordion
       >
         <div className={'overflow-hidden'}>
           <p className={'text-(--darkgray) text-sm md:text-base leading-[1.5em]'}>{feature.text}</p>
+
+          <div className={'w-full md:hidden'}>
+            <ValueAnimationInAccordion
+              artboard={`SECTION_0${index + 1}`}
+              stateMachine={'State Machine 1'}
+            />
+          </div>
         </div>
       </div>
     </motion.div>

@@ -8,9 +8,13 @@
   --smoke: #B8B8B8;
   --diagonal: #DAE4E7;
   --purple: #B8A6FF;
+  --yellow: #FFECB6;
+  --green: #BFF3C2;
+  --red: #FFB7B7;
   --pink: #CDA4EB;
   --blue: #94EEFF;
-  --yellow: #FFECB6
+  --vid-purple: #cda4eb;
+  --vid-grey: #F3F4F4;
 }
 
 @theme {
