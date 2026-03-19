@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRive } from '@rive-app/react-webgl2'
 
 const HeaderAnimation = () => {
-  // 1. Initialize useRive with autoBind: false
+  const [pointerEvents, setPointerEvents] = React.useState(true)
+
   const { RiveComponent } = useRive({
     src: '/animations/evolve_site_animations.riv',
     artboard: 'HEADER',
@@ -16,6 +17,15 @@ const HeaderAnimation = () => {
     autoBind: false
   })
 
-  return <RiveComponent className={'w-full h-full'} />
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setPointerEvents(false)
+    }, 2000)
+
+    return () => window.clearTimeout(timer)
+  }, [])
+
+  return <RiveComponent className={`w-full h-full ${pointerEvents ? 'pointer-events-none' : ''}`} />
 }
+
 export default HeaderAnimation
