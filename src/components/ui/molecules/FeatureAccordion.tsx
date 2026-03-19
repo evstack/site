@@ -25,7 +25,7 @@ const FeatureAccordion = ({ feature, isOpen, onToggle, index }: FeatureAccordion
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
-        className={'w-full text-left flex items-center justify-between gap-x-4'}
+        className={'w-full text-left flex items-center justify-between gap-x-4 cursor-pointer'}
       >
         <h4
           className={`font-medium transition-all ease-in-out duration-200 text-base! md:text-[20px]!`}
