@@ -1,7 +1,12 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
-import { useRive, useStateMachineInput } from '@rive-app/react-webgl2'
+import React, { useEffect } from 'react'
+import {
+  useRive,
+  useViewModel,
+  useViewModelInstance,
+  useViewModelInstanceNumber
+} from '@rive-app/react-webgl2'
 
 interface AnimationProps {
   artboard: string
@@ -16,12 +21,8 @@ const ValueAnimation = ({
   artboard,
   stateMachine,
   src = '/animations/evolve_site_animations.riv',
-  setActiveLayer,
   activeLayer
 }: AnimationProps) => {
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  const lastRiveValueRef = useRef<number | null>(null)
-
   const { rive, RiveComponent } = useRive({
     src,
     artboard,
@@ -34,42 +35,25 @@ const ValueAnimation = ({
     autoBind: false
   })
 
-  const riveIndexNum = useStateMachineInput(rive, stateMachine, 'sectionNum')
+  const viewModel = useViewModel(rive, { name: 'ViewModel1' })
+  const instance = useViewModelInstance(viewModel, { name: 'sectionNum_01' })
 
   useEffect(() => {
-    if (riveIndexNum) {
-      // eslint-disable-next-line react-hooks/immutability
-      riveIndexNum.value = activeLayer
-      lastRiveValueRef.current = activeLayer
+    if (rive && instance) {
+      rive.bindViewModelInstance(instance)
     }
-  }, [activeLayer, riveIndexNum])
+  }, [rive, instance])
+
+  const { setValue: setSectionNum } = useViewModelInstanceNumber('sectionNum', instance)
 
   useEffect(() => {
-    if (!rive || !riveIndexNum) return
-
-    let frameId = 0
-
-    const syncFromRive = () => {
-      const nextValue = Number(riveIndexNum.value)
-
-      if (!Number.isNaN(nextValue) && nextValue !== lastRiveValueRef.current) {
-        lastRiveValueRef.current = nextValue
-
-        if (nextValue !== activeLayer) {
-          setActiveLayer(nextValue)
-        }
-      }
-
-      frameId = window.requestAnimationFrame(syncFromRive)
+    if (instance) {
+      setSectionNum(activeLayer)
     }
-
-    frameId = window.requestAnimationFrame(syncFromRive)
-
-    return () => window.cancelAnimationFrame(frameId)
-  }, [rive, riveIndexNum, activeLayer, setActiveLayer])
+  }, [activeLayer, instance, setSectionNum])
 
   return (
-    <div ref={containerRef} className="w-full h-full">
+    <div className="w-full h-full">
       <RiveComponent className="w-full h-full" />
     </div>
   )
