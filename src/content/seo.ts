@@ -12,7 +12,7 @@ export const seo = {
     'A production stack on Celestia for teams building systems that need deterministic processing, policy controls, and always-on operations without being a tenant on shared chains.',
   locale: 'en_US',
   ogImage: {
-    url: '/header-image.png',
+    url: '/og-image.png',
     width: 1200,
     height: 630,
     alt: 'Evolve'
