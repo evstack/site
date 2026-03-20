@@ -1,7 +1,7 @@
 // src/content/seo.ts
 import type { Metadata, Viewport } from 'next'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, '') ?? 'https://example.com'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, '') ?? 'https://evolve.com'
 
 export const seo = {
   siteUrl: SITE_URL,
