@@ -614,7 +614,11 @@ const TelegramIcon = () => (
 
 export function baseOptions(): BaseLayoutProps {
   return {
-    nav: { title: 'Evolve' },
+    nav: {
+      title: (
+        <Image src="/evolve-logo.svg" alt="Evolve" width={100} height={24} />
+      ),
+    },
     githubUrl: 'https://github.com/evstack',
     links: [
       { text: 'Learn', url: '/docs/learn/about' },
@@ -693,6 +697,7 @@ Custom remark plugin that:
 - Detects `:::code-group` container directives
 - Extracts tab labels from code block meta (e.g., ` ```sh [Arabica] `)
 - Converts to Fumadocs `<Tabs>` + `<Tab>` components
+- **Must set `groupId` on `<Tabs>`** based on the set of tab labels, so tabs with matching labels sync across the page (e.g., selecting "Arabica" in one code group auto-selects "Arabica" in all others). VitePress does this automatically; Fumadocs `<Tabs>` requires an explicit `groupId` prop. Use a deterministic hash of the sorted label set as the `groupId`.
 - Only 4 instances in 3 files
 
 **2.4 `remark-strip-md-links`** — link cleanup (~10 lines)
