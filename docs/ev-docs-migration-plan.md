@@ -4,93 +4,234 @@
 
 The ev-node documentation currently lives in a separate VitePress site (`/ev-node/docs/`). We're migrating it into the Evolve marketing site (`/evolve/`) built with Next.js 16, React 19, and Tailwind CSS 4. The docs will live at `/docs/*` alongside the existing marketing pages (`/`, `/privacy-policy`, `/terms-and-conditions`).
 
-**Why Fumadocs?** It's built specifically for Next.js App Router, uses Tailwind CSS 4, and provides battle-tested docs primitives (sidebar, search, TOC, MDX components) out of the box — either as a full UI kit or headless. This avoids rebuilding navigation, search, and content processing from scratch.
+**Core requirement**: Keep `.md` files with minimal changes. A one-time cleanup of 12 files removes Vue-specific syntax; the remaining 112 files drop in untouched. All content, structure, and dynamic version rendering are preserved. No conversion to `.mdx`. No build-time pre-processor scripts.
+
+**Why Fumadocs?** It's built specifically for Next.js App Router, uses Tailwind CSS 4, and provides battle-tested docs primitives (sidebar, search, TOC, components) out of the box. It processes `.md` files natively through its MDX compiler. Combined with remark plugins, it handles VitePress container syntax (`:::tip`, `:::warning`, `:::code-group`) transparently.
 
 ---
 
-## Current Docs Inventory (VitePress)
+## VitePress Syntax Audit
 
-| Section | Files | Path | Description |
-|---------|-------|------|-------------|
-| Learn | 17 | `/learn/` | Core concepts, sequencing, specs |
-| Guides | 35 | `/guides/` | Quick start, DA, deployment, EVM, operations |
-| API Docs | auto | `/api/` | Auto-generated from `openapi-rpc.json` |
-| ADRs | 23 | `/adr/` | Architecture decision records |
-| Reference | 16 | `/reference/` | Config, API, interfaces, specs |
-| Concepts | 7 | `/concepts/` | Block lifecycle, DA, fees, etc. |
-| Overview | 3 | `/overview/` | What is Evolve, architecture |
-| EV-ABCI | 6 | `/ev-abci/` | Cosmos SDK integration |
-| EV-Reth | 7 | `/ev-reth/` | Ethereum execution layer |
-| **Total** | **~124** | | |
+Thorough audit of all 124 `.md` files reveals the exact VitePress features in use:
 
-### VitePress features in use
-- Markdown callouts (`::: tip`, `::: warning`, `::: danger`, `::: info`)
-- Mermaid diagrams (`vitepress-plugin-mermaid`)
-- OpenAPI auto-generated sidebar/pages (`vitepress-openapi`)
-- Vue components: `CelestiaGasEstimator.vue` (interactive calculator), `callout.vue`, `twitter.vue`, `keplr.vue`
-- Constants file for version strings (imported via `<script setup>`)
-- Local search
-- Collapsible sidebar with nested groups
-- Edit-on-GitHub links
+### Container directives — 35 instances across 12 files
+- `:::tip` — 8 occurrences (7 files)
+- `:::warning` / `:::warning Disclaimer` — 5 occurrences (4 files)
+- `:::info` — 1 occurrence
+- `:::code-group` — 4 instances across 3 files (tabbed code blocks)
+- No `:::danger` or `:::note` found
+
+### `<script setup>` blocks — 8 files
+All import either Vue components or the shared constants file:
+- `import constants from '../.vitepress/constants/constants.js'` — 7 files
+- `import Callout from '../.vitepress/components/callout.vue'` — 3 files
+- `import spec from '../src/openapi-rpc.json'` — 2 files (API docs)
+
+### Template interpolation `{{ }}` — 3 files
+Only used inside code blocks with `sh-vue` / `ts-vue` language specifiers (a VitePress feature that processes template syntax inside fenced code). Example:
+```
+```sh-vue [Arabica]
+Evolve Version: {{constants.celestiaNodeArabicaEvolveTag}}
+```
+```
+
+### Vue components in markdown — 4 total
+| Component | Used in | Size | Purpose |
+|-----------|---------|------|---------|
+| `<Callout />` | 3 files | 15 lines | Alpha notice banner |
+| `<CelestiaGasEstimator />` | 1 file | 1,589 lines | Interactive gas calculator |
+| `<OAIntroduction :spec="spec" />` | 1 file | External lib | OpenAPI intro (vitepress-openapi) |
+| `twitter.vue`, `keplr.vue` | 0 files | — | Present but unused in markdown |
+
+### Other VitePress features
+- **Mermaid diagrams** — 1 file (`guides/deploy/testnet.md`)
+- **Custom heading IDs** (`{#custom-id}`) — 24 files
+- **Internal links with `.md` extension** — used extensively (`./path.md`)
+- **Reference-style links** — 102 instances across specs and ADRs
+- **Frontmatter** — 13 files (standard `description`, `title`, plus VitePress-specific `layout: home`, `pageClass`, `aside`, `outline`)
+- **Home page hero** (`index.md`) — VitePress `layout: home` with hero/features YAML (will NOT be migrated — the marketing site IS the homepage)
+
+### What is NOT used
+- `:::danger`, `:::note` containers
+- `[[toc]]` directive
+- Line highlighting in code blocks (`js{1,3-5}`)
+- `<script>` (only `<script setup>`)
 
 ---
 
-## Recommended Approach: Fumadocs UI (Full Kit)
+## Recommended Approach: Fumadocs + One-Time Cleanup + Remark Plugins
 
-Use `fumadocs-ui` (not headless) to get the complete docs experience — sidebar, search, TOC, navbar, MDX components — then customize the theme to match the Evolve design system.
+### Architecture overview
 
-### Why full UI over headless?
-- The old docs already use standard docs UI patterns (sidebar, search, TOC) — no need to rebuild these
-- Fumadocs UI is fully customizable via CSS variables and component forking
-- Saves significant development time on sidebar logic, search UX, mobile navigation, breadcrumbs
-- Can still fork individual components later via `npx @fumadocs/cli add` if needed
+```
+.md files in content/docs/
+        │
+        ▼
+┌─────────────────────────────────────────────┐
+│  Fumadocs MDX compiler                       │
+│  + remark-directive                          │
+│  + remarkAdmonition (:::tip → <Callout>)     │
+│  + remark-vitepress-codegroup                │
+│    (:::code-group → <Tabs>)                  │
+│  + remark-template-vars                      │
+│    (%golangVersion% → actual value)          │
+│  + remark-strip-md-links                     │
+│    (./path.md → ./path)                      │
+│  + client-side Mermaid rendering             │
+│  + Shiki syntax highlighting (built-in)      │
+└─────────────────────────────────────────────┘
+        │
+        ▼
+  Rendered docs at /docs/*
+```
+
+### How each VitePress feature is handled
+
+| VitePress feature | Solution | Type |
+|---|---|---|
+| `:::tip`, `:::warning`, `:::info` | Fumadocs built-in `remarkAdmonition` plugin | Remark plugin (zero-config) |
+| `:::code-group` (tabbed code blocks) | Custom `remark-vitepress-codegroup` plugin → Fumadocs `<Tabs>` | Remark plugin |
+| `<script setup>` blocks | One-time cleanup: delete from 8 files | One-time edit |
+| `<Callout />` Vue component | One-time cleanup: replace with `:::tip` + static text in 3 files | One-time edit |
+| `{{constants.xxx}}` in `sh-vue` blocks | One-time cleanup: change `sh-vue` → `sh`, change `{{constants.xxx}}` → `%xxx%` marker | One-time edit |
+| Dynamic version rendering | `remark-template-vars` plugin resolves `%xxx%` markers from `docs-constants.ts` at build time | Remark plugin |
+| `<CelestiaGasEstimator />` | React port, mapped via MDX components | React component |
+| `<OAIntroduction />` (OpenAPI) | Replaced by `fumadocs-openapi` | Fumadocs plugin |
+| Internal links with `.md` extension | `remark-strip-md-links` plugin | Remark plugin |
+| Custom heading IDs `{#id}` | Supported by Fumadocs / `remark-heading-id` | Built-in or plugin |
+| Mermaid diagrams | Client-side React component using `mermaid` package | React component |
+| Frontmatter (`description`, `title`) | Native Fumadocs support | Built-in |
+| VitePress `layout: home` (`index.md`) | Not migrated — marketing site is the homepage | Skipped |
+
+---
+
+## One-Time Cleanup: 12 Files
+
+Only 12 of 124 files need any changes. The edits are small and mechanical:
+
+### Edit type 1: Strip `<script setup>` blocks (8 files)
+Delete the entire block (3–4 lines each):
+```md
+<!-- DELETE THIS BLOCK -->
+<script setup>
+import Callout from '../.vitepress/components/callout.vue'
+import constants from '../.vitepress/constants/constants.js'
+</script>
+```
+
+### Edit type 2: Replace `<Callout />` with `:::tip` (3 files)
+```md
+<!-- BEFORE -->
+:::tip
+<Callout />
+:::
+
+<!-- AFTER -->
+:::tip
+This tutorial explores Evolve, currently in Alpha stage.
+:::
+```
+
+### Edit type 3: Convert `sh-vue` to `sh` + template markers (3 files)
+Replace VitePress template interpolation with remark-compatible markers:
+```md
+<!-- BEFORE -->
+```sh-vue [Arabica]
+Evolve Version: {{constants.celestiaNodeArabicaEvolveTag}}
+Celestia Node Version: {{constants.celestiaNodeArabicaTag}}
+```
+
+<!-- AFTER -->
+```sh [Arabica]
+Evolve Version: %celestiaNodeArabicaEvolveTag%
+Celestia Node Version: %celestiaNodeArabicaTag%
+```
+```
+
+The `%xxx%` markers are resolved to actual values at build time by the `remark-template-vars` plugin, reading from `docs-constants.ts`. This preserves dynamic version rendering — update one file, all docs reflect the change.
+
+### Edit type 4: Replace `<OAIntroduction>` (1 file — `api/index.md`)
+Replace the VitePress OpenAPI component with a reference to the Fumadocs OpenAPI-generated pages. This file is restructured as part of the OpenAPI migration (Phase 4).
+
+### Files NOT edited (112 of 124)
+These drop in completely untouched. Standard Markdown with `:::` containers, code blocks, links, images, tables, frontmatter — all handled by Fumadocs + remark plugins.
+
+---
+
+## Dynamic Version Rendering
+
+Version strings remain centrally managed, matching the VitePress DX:
+
+**VitePress (old)**:
+```
+constants.js → <script setup> import → {{constants.xxx}} in sh-vue code blocks
+```
+
+**Fumadocs (new)**:
+```
+docs-constants.ts → remark-template-vars plugin → %xxx% in sh code blocks
+```
+
+**`src/lib/docs-constants.ts`** — single source of truth:
+```ts
+export const docsConstants: Record<string, string> = {
+  golangVersion: 'go1.25.0',
+  evolveLatestTag: 'v1.0.0-beta.4',
+  evolveIgniteAppVersion: 'evolve/v0.4.0',
+  localDALatestTag: 'v1.0.0-beta.1',
+  igniteVersionTag: 'v28.5.3',
+  celestiaNodeArabicaTag: 'v0.23.4-arabica',
+  celestiaNodeMochaTag: 'v0.23.4-mocha',
+  celestiaNodeMainnetTag: 'v0.22.3',
+  // ... all other constants
+};
+```
+
+**`src/plugins/remark-template-vars.ts`** — remark plugin:
+```ts
+// Walks the AST, finds code block text nodes containing %xxx%,
+// replaces with the matching value from docsConstants.
+// Runs inside Fumadocs' MDX pipeline — no external build step.
+```
+
+To bump a version: edit `docs-constants.ts` → all docs pages reflect the change on next build. Same workflow as updating `constants.js` in VitePress.
 
 ---
 
 ## Integration Architecture
 
 ```
-src/app/
-  layout.tsx              ← Wrap with RootProvider (theme + search context)
-  page.tsx                ← Marketing homepage (unchanged)
-  privacy-policy/         ← Legal pages (unchanged)
-  terms-and-conditions/   ← Legal pages (unchanged)
-  docs/
-    layout.tsx            ← DocsLayout with sidebar tree
-    [[...slug]]/
-      page.tsx            ← Catch-all docs page renderer
-  api/
-    search/
-      route.ts            ← Fumadocs search API endpoint
-
 content/
-  docs/                   ← All migrated MDX content lives here
-    meta.json             ← Root sidebar config
+  docs/                     ← .md files (original VitePress content, one-time cleanup applied)
+    meta.json               ← Root sidebar config (new file)
     learn/
-      meta.json
-      about.mdx
-      data-availability.mdx
+      meta.json             ← Sidebar order (new file)
+      about.md
+      data-availability.md
       sequencing/
         meta.json
-        overview.mdx
-        single.mdx
-        based.mdx
+        overview.md
+        single.md
+        based.md
+      specs/
+        meta.json
+        ...
       ...
     guides/
       meta.json
-      quick-start.mdx
+      quick-start.md
+      gm-world.md
       da/
         meta.json
-        local-da.mdx
-        celestia-da.mdx
+        local-da.md
+        celestia-da.md
         ...
       deploy/
       evm/
       ...
     api/
       meta.json
-      index.mdx
-      ...
+      index.md
     reference/
     concepts/
     overview/
@@ -98,22 +239,41 @@ content/
     ev-reth/
     adr/
 
+src/app/
+  layout.tsx                ← Wrap with RootProvider
+  page.tsx                  ← Marketing homepage (unchanged)
+  privacy-policy/           ← Legal pages (unchanged)
+  terms-and-conditions/     ← Legal pages (unchanged)
+  docs/
+    layout.tsx              ← DocsLayout with sidebar tree
+    [[...slug]]/
+      page.tsx              ← Catch-all docs page renderer
+  api/
+    search/
+      route.ts              ← Fumadocs search API endpoint
+
 src/lib/
-  source.ts               ← Fumadocs source/loader config
-  layout.shared.tsx        ← Shared layout options (nav links, logo)
-  docs-constants.ts        ← Version strings (replaces VitePress constants.js)
+  source.ts                 ← Fumadocs source/loader config
+  layout.shared.tsx         ← Shared layout options (nav links, logo)
+  docs-constants.ts         ← Version strings (single source of truth)
+
+src/plugins/
+  remark-template-vars.ts       ← %xxx% → actual values in code blocks
+  remark-vitepress-codegroup.ts ← :::code-group → <Tabs>
+  remark-strip-md-links.ts      ← Strip .md from internal links
 
 src/components/
-  mdx.tsx                  ← MDX component overrides
+  mdx.tsx                       ← MDX component overrides
   docs/
-    CelestiaGasEstimator.tsx  ← Migrated from Vue → React
+    CelestiaGasEstimator.tsx    ← React port of Vue component
+    MermaidDiagram.tsx           ← Client-side Mermaid renderer
 ```
 
 ### Key files to create/modify
 
 | File | Action | Purpose |
 |------|--------|---------|
-| `source.config.ts` | Create | Define docs collection, frontmatter schema |
+| `source.config.ts` | Create | Define docs collection, remark plugins |
 | `next.config.mjs` | Modify | Wrap with `createMDX()` |
 | `tsconfig.json` | Modify | Add `"collections/*": [".source/*"]` path alias |
 | `src/app/globals.css` | Modify | Add Fumadocs CSS imports |
@@ -123,29 +283,51 @@ src/components/
 | `src/app/api/search/route.ts` | Create | Search endpoint |
 | `src/lib/source.ts` | Create | Fumadocs loader |
 | `src/lib/layout.shared.tsx` | Create | Shared nav/layout config |
+| `src/lib/docs-constants.ts` | Create | Version constants (single source of truth) |
+| `src/plugins/remark-template-vars.ts` | Create | Dynamic version rendering in code blocks |
+| `src/plugins/remark-vitepress-codegroup.ts` | Create | Code-group to Tabs plugin |
+| `src/plugins/remark-strip-md-links.ts` | Create | Remove .md from links |
 | `src/components/mdx.tsx` | Create | MDX components mapping |
+| `src/components/docs/CelestiaGasEstimator.tsx` | Create | React port of Vue gas calculator |
+| `src/components/docs/MermaidDiagram.tsx` | Create | Client-side Mermaid renderer |
 | `.gitignore` | Modify | Add `.source/` |
 
 ---
 
 ## Step-by-Step Implementation Plan
 
-### Phase 1: Fumadocs Scaffold (no content yet)
+### Phase 1: Fumadocs Scaffold
 
 **1.1 Install dependencies**
 ```bash
-npm i fumadocs-mdx fumadocs-core fumadocs-ui @types/mdx
+npm i fumadocs-mdx fumadocs-core fumadocs-ui @types/mdx remark-directive
 ```
 
 **1.2 Create `source.config.ts`** at project root
 ```ts
 import { defineDocs, defineConfig } from 'fumadocs-mdx/config';
+import remarkDirective from 'remark-directive';
+import { remarkAdmonition } from 'fumadocs-core/mdx-plugins';
+import { remarkTemplateVars } from './src/plugins/remark-template-vars';
+import { remarkVitepressCodeGroup } from './src/plugins/remark-vitepress-codegroup';
+import { remarkStripMdLinks } from './src/plugins/remark-strip-md-links';
 
 export const docs = defineDocs({
   dir: 'content/docs',
 });
 
-export default defineConfig();
+export default defineConfig({
+  mdxOptions: {
+    remarkPlugins: (defaults) => [
+      remarkDirective,
+      remarkAdmonition,          // :::tip, :::warning, :::info → <Callout>
+      remarkVitepressCodeGroup,  // :::code-group → <Tabs>
+      remarkTemplateVars,        // %version% → actual value from docs-constants.ts
+      remarkStripMdLinks,        // ./path.md → ./path
+      ...defaults,
+    ],
+  },
+});
 ```
 
 **1.3 Wrap `next.config.mjs`** with MDX plugin
@@ -170,9 +352,7 @@ export default withMDX(config);
 
 **1.5 Add `.source/` to `.gitignore`**
 
-**1.6 Handle CSS integration** — this is the trickiest part
-
-The Evolve site has global `h1–h4` styles and custom CSS variables. Fumadocs' preset modifies base styles. Two strategies:
+**1.6 Handle CSS integration**
 
 **Option A (Recommended): Scoped Fumadocs styles**
 - Import Fumadocs CSS only in the docs layout, not in globals.css
@@ -192,9 +372,9 @@ src/app/
     docs/
       [[...slug]]/page.tsx
 ```
-This gives full CSS isolation but requires moving existing pages.
+Full CSS isolation but requires moving existing pages.
 
-**Decision point**: Option A is less disruptive. We should test Fumadocs CSS imports and verify no visual regressions on marketing pages before committing to either approach.
+**Decision point**: Option A is less disruptive. Test first.
 
 **1.7 Modify root layout** — add `RootProvider`
 ```tsx
@@ -204,10 +384,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${geistMono.variable}`}>
       <body>
-        <RootProvider
-          theme={{ enabled: false }} // We handle our own theme (light-only for now)
-        >
-          <Header />
+        <RootProvider theme={{ enabled: false }}>
+          <Header /> {/* conditionally hide on /docs routes */}
           {children}
         </RootProvider>
       </body>
@@ -216,146 +394,115 @@ export default function RootLayout({ children }) {
 }
 ```
 
-Note: the marketing site is light-mode only. Fumadocs includes `next-themes` by default. We can disable it or embrace light/dark for docs. Decision needed.
-
 **1.8 Create docs layout and page**
 
-`src/app/docs/layout.tsx`:
-```tsx
-import { source } from '@/lib/source';
-import { DocsLayout } from 'fumadocs-ui/layouts/docs';
-import { baseOptions } from '@/lib/layout.shared';
+`src/app/docs/layout.tsx` — `DocsLayout` with sidebar tree.
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <DocsLayout tree={source.getPageTree()} {...baseOptions()}>
-      {children}
-    </DocsLayout>
-  );
-}
-```
-
-`src/app/docs/[[...slug]]/page.tsx`:
-```tsx
-import { source } from '@/lib/source';
-import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/docs/page';
-import { notFound } from 'next/navigation';
-import { getMDXComponents } from '@/components/mdx';
-import { createRelativeLink } from 'fumadocs-ui/mdx';
-
-export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
-  const params = await props.params;
-  const page = source.getPage(params.slug);
-  if (!page) notFound();
-
-  const MDX = page.data.body;
-  return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
-      <DocsBody>
-        <MDX components={getMDXComponents({ a: createRelativeLink(source, page) })} />
-      </DocsBody>
-    </DocsPage>
-  );
-}
-
-export async function generateStaticParams() {
-  return source.generateParams();
-}
-```
+`src/app/docs/[[...slug]]/page.tsx` — catch-all page renderer with `DocsPage`, `DocsTitle`, `DocsDescription`, `DocsBody`.
 
 **1.9 Create search API route**
 ```ts
 // src/app/api/search/route.ts
 import { source } from '@/lib/source';
 import { createFromSource } from 'fumadocs-core/search/server';
-
 export const { GET } = createFromSource(source);
 ```
 
-**1.10 Create a test page** — add `content/docs/index.mdx` with basic content to verify the setup works end-to-end.
+**1.10 Create a test page** — add `content/docs/index.md` with basic content to verify setup.
 
-**1.11 Verify no visual regressions** on marketing pages (`/`, `/privacy-policy`, `/terms-and-conditions`).
-
----
-
-### Phase 2: Theme Customization
-
-**2.1 Pick a base theme** and override CSS variables to match Evolve's design system.
-
-Fumadocs provides these theme presets: `neutral`, `black`, `vitepress`, `ocean`, `purple`, etc. Start with `neutral` or `vitepress` (closest to old site feel).
-
-**2.2 Override Fumadocs CSS variables** to match Evolve's colors:
-```css
-:root {
-  --color-fd-primary: #B8A6FF;          /* map to --purple */
-  --color-fd-background: #F3F4F4;       /* map to --background-bg */
-  --color-fd-foreground: #000000;        /* map to --foreground-color */
-  --color-fd-muted-foreground: #A0A0A0;  /* map to --darksmoke */
-  --color-fd-border: #DAE4E7;            /* map to --diagonal */
-  /* etc. */
-}
-```
-
-**2.3 Configure fonts** — Fumadocs doesn't ship fonts. The existing Inter + Geist Mono from `next/font` should apply automatically via CSS variables already set on `<html>`.
-
-**2.4 Customize the docs navbar** — configure nav links to match old VitePress nav:
-```tsx
-// src/lib/layout.shared.tsx
-export function baseOptions(): BaseLayoutProps {
-  return {
-    nav: {
-      title: 'Evolve',
-    },
-    links: [
-      { text: 'Learn', url: '/docs/learn/about' },
-      { text: 'Guides', url: '/docs/guides/quick-start' },
-      { text: 'API', url: '/docs/api' },
-    ],
-    githubUrl: 'https://github.com/evstack',
-  };
-}
-```
-
-**2.5 Consider sidebar tabs** — the old VitePress sidebar has 3 top-level sections (Learn, Guides, API). In Fumadocs, these can be rendered as sidebar tabs using `"root": true` in each section's `meta.json`. This gives a cleaner UX than a single long sidebar.
+**1.11 Verify no visual regressions** on marketing pages.
 
 ---
 
-### Phase 3: Content Migration
+### Phase 2: Remark Plugins
 
-**3.1 Copy and convert markdown files**
+**2.1 Container directives** — zero work needed
 
-For each VitePress `.md` file → Fumadocs `.mdx` file:
+Fumadocs' built-in `remarkAdmonition` (requires `remark-directive`) converts:
+- `:::tip` → `<Callout type="info">`
+- `:::warning` → `<Callout type="warn">`
+- `:::danger` → `<Callout type="error">`
+- `:::info` → `<Callout type="info">`
 
-| VitePress pattern | Fumadocs equivalent |
-|---|---|
-| `:::tip` / `:::warning` / `:::danger` / `:::info` | `<Callout type="info\|warn\|error">` component |
-| `<script setup>` with Vue imports | React component imports at top of MDX |
-| `{{ constants.version }}` template syntax | Import from `@/lib/docs-constants` and use JSX |
-| Relative links `./path.md` | Relative links `./path` (no extension) |
-| Frontmatter `description:` | Frontmatter `title:` + `description:` |
-| Mermaid code blocks | Use `fumadocs-core` remark plugin or embed as component |
+Supports custom titles: `:::warning Disclaimer` → `<Callout type="warn" title="Disclaimer">`
 
-**3.2 Create `meta.json` files** for sidebar ordering
+**2.2 `remark-template-vars`** — dynamic version rendering
 
-Each directory needs a `meta.json` to control sidebar order and display. Map from the VitePress `sidebarHome()` config:
+Custom remark plugin that:
+- Walks AST code block nodes
+- Finds `%variableName%` markers in text content
+- Replaces with values from `docs-constants.ts`
+- ~30 lines of code
+
+This preserves the VitePress DX: update `docs-constants.ts` once → all docs reflect the change.
+
+**2.3 `remark-vitepress-codegroup`** — tabbed code blocks
+
+Custom remark plugin that:
+- Detects `:::code-group` container directives (from `remark-directive`)
+- Extracts tab labels from code block meta (e.g., ` ```sh [Arabica] `)
+- Converts to Fumadocs `<Tabs>` + `<Tab>` components
+- Only 4 instances in 3 files, so scope is small
+
+**2.4 `remark-strip-md-links`** — link cleanup
+
+Custom remark plugin that:
+- Finds link nodes where `href` ends in `.md`
+- Strips the `.md` extension
+- ~10 lines of code
+
+**2.5 Custom heading IDs** — test first
+
+The `{#custom-id}` syntax may be handled by Fumadocs out of the box. If not, add `remark-heading-id` plugin.
+
+---
+
+### Phase 3: One-Time Content Cleanup
+
+Apply the mechanical edits to 12 files (described in detail above):
+
+1. Delete `<script setup>` blocks from 8 files
+2. Replace `<Callout />` with `:::tip` + static text in 3 files
+3. Convert `sh-vue` → `sh` and `{{constants.xxx}}` → `%xxx%` in 3 files
+4. Restructure `api/index.md` for Fumadocs OpenAPI
+
+Copy all 124 `.md` files (with edits applied to the 12) into `content/docs/`, preserving directory structure. Add `meta.json` sidebar config files.
+
+---
+
+### Phase 4: React Component Ports & OpenAPI
+
+**4.1 `<CelestiaGasEstimator />`** — React port required
+
+1,589-line Vue component → `'use client'` React component. Register in MDX components map so the tag in `.md` files renders the React version automatically.
+
+**4.2 `<MermaidDiagram />`** — client-side renderer
+
+Simple `'use client'` React component using the `mermaid` npm package. Mapped to ` ```mermaid ` code blocks via a rehype plugin or MDX component override. Only 1 file uses Mermaid.
+
+**4.3 OpenAPI docs** — `fumadocs-openapi`
+
+Replace `vitepress-openapi` with `fumadocs-openapi`:
+```bash
+npm i fumadocs-openapi
+```
+Generates pages from `openapi-rpc.json` at build time.
+
+**4.4 `twitter.vue`, `keplr.vue`** — skip
+
+Not used in any markdown file. No port needed.
+
+---
+
+### Phase 5: Sidebar Configuration
+
+Create `meta.json` files mapping the VitePress `sidebarHome()` structure:
 
 ```json
 // content/docs/meta.json (root)
 {
   "root": true,
-  "pages": [
-    "learn",
-    "guides",
-    "api",
-    "reference",
-    "concepts",
-    "overview",
-    "ev-abci",
-    "ev-reth",
-    "adr"
-  ]
+  "pages": ["learn", "guides", "api", "reference", "concepts", "overview", "ev-abci", "ev-reth", "adr"]
 }
 ```
 
@@ -365,13 +512,8 @@ Each directory needs a `meta.json` to control sidebar order and display. Map fro
   "title": "Learn",
   "root": true,
   "pages": [
-    "about",
-    "data-availability",
-    "sequencing",
-    "execution",
-    "specs",
-    "transaction-flow",
-    "config"
+    "about", "data-availability", "sequencing", "execution",
+    "specs", "transaction-flow", "config"
   ]
 }
 ```
@@ -382,142 +524,144 @@ Each directory needs a `meta.json` to control sidebar order and display. Map fro
   "title": "How To Guides",
   "root": true,
   "pages": [
-    "quick-start",
-    "gm-world",
-    "da",
-    "deploy",
-    "evm",
-    "full-node",
-    "restart-chain",
-    "reset-state",
-    "cometbft-to-evolve",
-    "migrating-to-ev-abci",
-    "create-genesis",
-    "metrics",
-    "use-tia-for-gas",
+    "quick-start", "gm-world", "da", "deploy", "evm",
+    "full-node", "restart-chain", "reset-state",
+    "cometbft-to-evolve", "migrating-to-ev-abci",
+    "create-genesis", "metrics", "use-tia-for-gas",
     "celestia-gas-calculator"
   ]
 }
 ```
 
-**3.3 Migrate Vue components to React**
+Additional `meta.json` files for nested directories (`learn/sequencing/`, `learn/specs/`, `guides/da/`, `guides/deploy/`, `guides/evm/`, etc.)
 
-| Vue Component | React Equivalent | Complexity |
-|---|---|---|
-| `callout.vue` | Use Fumadocs `<Callout>` | Trivial — drop-in |
-| `CelestiaGasEstimator.vue` | Rewrite as React `'use client'` component | High — 46KB interactive component |
-| `twitter.vue` | Simple embed component | Low |
-| `keplr.vue` | Wallet connection component | Medium |
-
-The `CelestiaGasEstimator` is the most complex. It's a large interactive calculator with form inputs, calculations, and results display. This should be migrated as a standalone `'use client'` React component and imported into the relevant MDX page.
-
-**3.4 Migrate version constants**
-
-Create `src/lib/docs-constants.ts`:
-```ts
-export const docsConstants = {
-  golangVersion: 'go1.25.0',
-  evolveLatestTag: 'v1.0.0-beta.4',
-  localDALatestTag: 'v1.0.0-beta.1',
-  // ... remaining constants from VitePress constants.js
-};
-```
-
-Use in MDX:
-```mdx
-import { docsConstants } from '@/lib/docs-constants';
-
-Install Go version {docsConstants.golangVersion}
-```
-
-**3.5 Handle callout syntax transformation**
-
-Write a script or do manually — convert VitePress callout blocks:
-```md
-::: tip
-Some tip content
-:::
-```
-→ Fumadocs MDX:
-```mdx
-<Callout type="info">
-Some tip content
-</Callout>
-```
-
-Mapping:
-| VitePress | Fumadocs `<Callout type="">` |
-|---|---|
-| `:::tip` | `info` |
-| `:::warning` | `warn` |
-| `:::danger` | `error` |
-| `:::info` | `info` |
-| `:::note` | `info` |
-
-**3.6 Handle Mermaid diagrams**
-
-Options:
-1. Use `rehype-mermaid` or `remark-mermaid` plugin with Fumadocs' remark/rehype pipeline
-2. Or pre-render Mermaid diagrams to SVG and embed as images
-
-Option 1 is better for maintainability. Add the plugin in `source.config.ts`:
-```ts
-export default defineConfig({
-  mdxOptions: {
-    remarkPlugins: [remarkMermaid],
-  },
-});
-```
-
-**3.7 Handle OpenAPI docs**
-
-The old site used `vitepress-openapi` to auto-generate API pages from `openapi-rpc.json`. Options for Fumadocs:
-
-1. **Fumadocs OpenAPI plugin** — Fumadocs has `fumadocs-openapi` that generates MDX pages from OpenAPI specs. This is the closest equivalent.
-2. **Manual API pages** — Write MDX pages manually for each endpoint.
-3. **Embed Swagger/Redoc** — Use a React component to render the spec.
-
-Option 1 is the most direct replacement:
-```bash
-npm i fumadocs-openapi
-```
+The `meta.json` files are the ONLY new files added alongside the `.md` content.
 
 ---
 
-### Phase 4: Navigation & Header Integration
+### Phase 6: Theme Customization
 
-**4.1 Decide on header behavior**
+**6.1 Pick a base theme** — start with `neutral` or `vitepress` preset.
 
-The marketing site has a custom `<Header>` component. The docs pages will use Fumadocs' `DocsLayout` which includes its own navbar. Options:
+**6.2 Override CSS variables** to match Evolve's design system:
+```css
+:root {
+  --color-fd-primary: #B8A6FF;          /* --purple */
+  --color-fd-background: #F3F4F4;       /* --background-bg */
+  --color-fd-foreground: #000000;        /* --foreground-color */
+  --color-fd-muted-foreground: #A0A0A0;  /* --darksmoke */
+  --color-fd-border: #DAE4E7;            /* --diagonal */
+}
+```
 
-- **Option A**: Hide the marketing `<Header>` on `/docs/*` routes and use Fumadocs' built-in navbar. Simpler, consistent docs experience.
-- **Option B**: Keep the marketing `<Header>` globally and configure Fumadocs to hide its own navbar. Consistent site-wide branding but requires more custom work.
-- **Option C**: Customize Fumadocs navbar to visually match the marketing header. Best UX but most effort.
+**6.3 Fonts** — Inter + Geist Mono already loaded via `next/font`, no action needed.
 
-**Recommendation**: Option A — conditionally render `<Header>` outside `/docs/*`. The docs layout provides its own nav with search, breadcrumbs, and sidebar toggle. Add a "Back to Home" link in the docs nav.
+**6.4 Docs navbar** — configure to match old VitePress nav:
+```tsx
+export function baseOptions(): BaseLayoutProps {
+  return {
+    nav: { title: 'Evolve' },
+    links: [
+      { text: 'Learn', url: '/docs/learn/about' },
+      { text: 'Guides', url: '/docs/guides/quick-start' },
+      { text: 'API', url: '/docs/api' },
+    ],
+    githubUrl: 'https://github.com/evstack',
+  };
+}
+```
 
-**4.2 Add cross-navigation**
-- Marketing header: add a "Docs" link pointing to `/docs`
-- Docs navbar: add a link back to `/` (the marketing site)
+**6.5 Sidebar tabs** — use `"root": true` in top-level `meta.json` files for tab-based section switching.
 
 ---
 
-### Phase 5: Polish & Verify
+### Phase 7: Navigation & Header Integration
 
-**5.1 Test all pages render correctly** — iterate through the ~124 pages and fix any MDX compilation errors, broken links, or missing assets.
+**7.1 Header behavior** — conditionally render the marketing `<Header>` outside `/docs/*` routes. Fumadocs' `DocsLayout` provides its own navbar with search, breadcrumbs, and sidebar toggle.
 
-**5.2 Copy static assets** — move images from old `/public/img/` to the new `/public/docs/` or similar.
+**7.2 Cross-navigation**:
+- Marketing header: add a "Docs" link → `/docs`
+- Docs navbar: add a link back to `/` (marketing site)
 
-**5.3 Set up redirects** — if the old docs had different URL patterns, add redirects in `next.config.mjs` to preserve SEO. Key mappings:
-- `/learn/*` → `/docs/learn/*`
-- `/guides/*` → `/docs/guides/*`
-- `/api/*` → `/docs/api/*`
+---
 
-**5.4 Test search** — verify Orama search indexes all docs pages and returns relevant results.
+### Phase 8: Polish & Verify
 
-**5.5 Test mobile** — sidebar collapse, search dialog, TOC behavior on mobile viewports.
+**8.1 Test all ~124 pages render correctly**
 
-**5.6 Verify marketing pages are unaffected** — no style regressions on `/`, `/privacy-policy`, `/terms-and-conditions`.
+**8.2 Copy static assets** — images from old `docs/` to `content/docs/` (maintaining relative paths)
+
+**8.3 Redirects** — if deploying on the same domain as the old docs:
+```js
+// next.config.mjs
+redirects: async () => [
+  { source: '/learn/:path*', destination: '/docs/learn/:path*', permanent: true },
+  { source: '/guides/:path*', destination: '/docs/guides/:path*', permanent: true },
+  { source: '/api/:path*', destination: '/docs/api/:path*', permanent: true },
+]
+```
+
+**8.4 Test search** — verify Orama indexes all pages.
+
+**8.5 Test mobile** — sidebar, search dialog, TOC.
+
+**8.6 Verify marketing pages unaffected** — no CSS regressions.
+
+---
+
+## What Changes vs. What Stays The Same
+
+### Stays the same (zero changes)
+- All markdown content, headings, paragraphs, lists, tables (112 files untouched)
+- `:::tip`, `:::warning`, `:::info` container syntax
+- `:::code-group` tabbed code blocks
+- Code blocks with syntax highlighting
+- Mermaid diagram syntax
+- Images and static assets
+- Frontmatter (`description`, `title`)
+- Custom heading IDs (`{#id}`)
+- Reference-style links
+- Internal links (`./path.md` — `.md` stripped at build time)
+
+### One-time cleanup (12 files, small mechanical edits)
+- `<script setup>` blocks → deleted (8 files, 3–4 lines each)
+- `<Callout />` → replaced with `:::tip` + static text (3 files)
+- `{{constants.xxx}}` → `%xxx%` template markers (3 files)
+- `sh-vue` / `ts-vue` → `sh` / `ts` language identifier (3 files)
+
+### Preserved via remark plugin (same DX as VitePress)
+- Dynamic version rendering: `%xxx%` in code blocks resolved from `docs-constants.ts` at build time. Update one file → all docs reflect the change.
+
+### New files added alongside content
+- `meta.json` per directory (sidebar ordering)
+
+### Requires a React port (1 component)
+- `CelestiaGasEstimator.vue` → `CelestiaGasEstimator.tsx` (1,589 lines)
+
+### Not migrated (replaced by marketing site)
+- `index.md` home layout (hero, features) — the Evolve marketing site IS the homepage
+
+---
+
+## Package Requirements
+
+All packages must be actively maintained (2025+).
+
+| Package | Purpose | Status |
+|---------|---------|--------|
+| `fumadocs-mdx` | Content processing (.md/.mdx → typed data) | Active, 2025, Next.js 16 compatible |
+| `fumadocs-core` | Headless utilities, remark plugins, search | Active, 2025 |
+| `fumadocs-ui` | Pre-built docs UI (sidebar, search, TOC, layout) | Active, 2025, Tailwind CSS 4 |
+| `@types/mdx` | TypeScript types for MDX | Active |
+| `remark-directive` | Parses `:::` container syntax into AST | Active, unified ecosystem |
+| `fumadocs-openapi` | OpenAPI → docs page generation | Active, 2025 |
+| `mermaid` | Client-side diagram rendering | Active, v11+ |
+
+**NOT used** (outdated or unnecessary):
+- `contentlayer` / `contentlayer2` — semi-maintained, not needed with Fumadocs
+- `next-mdx-remote` — not well maintained in 2025, not needed
+- `velite` — pre-1.0, not needed with Fumadocs
+- `rehype-mermaid` — pulls in Playwright, overkill for 1 diagram
 
 ---
 
@@ -525,12 +669,12 @@ The marketing site has a custom `<Header>` component. The docs pages will use Fu
 
 | Risk | Impact | Mitigation |
 |------|--------|------------|
-| Fumadocs CSS conflicts with marketing styles | Global `h1–h4` and typography styles could clash | Scope Fumadocs CSS to `/docs` route, or use route groups for isolation |
-| Mermaid rendering | Some diagrams may not render identically | Test each diagram, fall back to pre-rendered SVGs if needed |
-| `CelestiaGasEstimator` complexity | 46KB Vue component needs full React rewrite | Budget significant time; can initially link to old site |
-| OpenAPI page generation | `fumadocs-openapi` may have different output than `vitepress-openapi` | Test early; may need to customize templates |
-| Build time increase | 124 MDX pages + search indexing adds to build | Should still be fast since content is static; monitor in CI |
-| `RootProvider` side effects | Wraps entire app, adds `next-themes` context | Disable theme toggle if not needed; test carefully |
+| Fumadocs CSS conflicts with marketing styles | Global typography clashes | Scope via `@layer` or route groups; test early |
+| `<CelestiaGasEstimator>` React port | Complex interactive component | Budget significant time; can initially link to old site |
+| MDX compiler chokes on `.md` edge cases | Raw `<` or `{` in prose | Escape in one-time cleanup; most files are clean |
+| `:::code-group` remark plugin | Custom plugin needed | Small scope — only 4 instances in 3 files |
+| `RootProvider` side effects | Adds `next-themes` globally | Disable theme toggle; test carefully |
+| Custom heading IDs `{#id}` | May not be supported out of box | Test with Fumadocs; add `remark-heading-id` plugin if needed |
 
 ---
 
@@ -538,21 +682,23 @@ The marketing site has a custom `<Header>` component. The docs pages will use Fu
 
 | Phase | Scope | Notes |
 |-------|-------|-------|
-| Phase 1 | Fumadocs scaffold + routing | Straightforward setup |
-| Phase 2 | Theme customization | CSS variable mapping |
-| Phase 3 | Content migration (124 files) | Bulk of the work — callout syntax, Vue→React, meta.json files |
-| Phase 4 | Navigation integration | Header conditional rendering |
-| Phase 5 | QA + polish | Link checking, mobile testing, redirects |
+| Phase 1 | Fumadocs scaffold + routing | Standard setup |
+| Phase 2 | Remark plugins | 3 small custom plugins (~80 lines total) |
+| Phase 3 | One-time content cleanup | Mechanical edits to 12 files |
+| Phase 4 | React component ports + OpenAPI | CelestiaGasEstimator is the main effort |
+| Phase 5 | Sidebar `meta.json` files | Mapping from VitePress sidebar config |
+| Phase 6 | Theme customization | CSS variable overrides |
+| Phase 7 | Navigation integration | Header conditional rendering |
+| Phase 8 | QA + polish | Test all 124 pages, search, mobile |
 
 ---
 
 ## Open Decisions
 
-1. **Light/dark mode for docs?** Marketing site is light-only. Should docs support dark mode? (Fumadocs supports it out of the box.)
-2. **CSS isolation strategy?** Option A (scoped imports) vs Option B (route groups). Need to test Fumadocs CSS impact on existing pages first.
+1. **Light/dark mode for docs?** Marketing site is light-only. Should docs support dark mode?
+2. **CSS isolation strategy?** Scoped `@layer` imports vs route groups. Test first.
 3. **Header strategy?** Hide marketing header on docs pages vs customize Fumadocs navbar to match.
-4. **OpenAPI approach?** Use `fumadocs-openapi` plugin vs manual API pages vs embedded Swagger.
-5. **Mermaid strategy?** Runtime rendering plugin vs pre-rendered SVGs.
-6. **Gas Calculator migration timing?** Migrate the full React component now vs link to old site temporarily.
-7. **ADR inclusion?** Are all 23 ADRs still relevant and should they be migrated, or are some obsolete?
-8. **URL structure?** Keep old paths under `/docs/` prefix (e.g., `/docs/learn/about`) or flatten?
+4. **Gas Calculator timing?** Port the full React component now vs link to old site temporarily.
+5. **ADR inclusion?** Are all 23 ADRs still relevant, or are some obsolete?
+6. **URL structure?** `/docs/learn/about` (prefixed) vs `/learn/about` (flat)?
+7. **Mermaid approach?** Client-side React component vs pre-rendered SVG (only 1 diagram).
