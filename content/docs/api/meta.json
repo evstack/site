@@ -1,0 +1,7 @@
+{
+  "title": "API Documentation",
+  "description": "RPC API reference",
+  "icon": "Unplug",
+  "root": true,
+  "pages": ["index", "..."]
+}

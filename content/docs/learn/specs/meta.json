@@ -1,0 +1,13 @@
+{
+  "title": "Technical Specifications",
+  "pages": [
+    "overview",
+    "block-manager",
+    "block-validity",
+    "da",
+    "full_node",
+    "header-sync",
+    "p2p",
+    "store"
+  ]
+}

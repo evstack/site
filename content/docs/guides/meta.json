@@ -1,0 +1,24 @@
+{
+  "title": "How To Guides",
+  "description": "Step-by-step tutorials and guides",
+  "icon": "Wrench",
+  "root": true,
+  "pages": [
+    "quick-start",
+    "gm-world",
+    "da",
+    "deploy",
+    "evm",
+    "full-node",
+    "restart-chain",
+    "reset-state",
+    "cometbft-to-evolve",
+    "migrating-to-ev-abci",
+    "create-genesis",
+    "metrics",
+    "use-tia-for-gas",
+    "celestia-gas-calculator",
+    "---More---",
+    "..."
+  ]
+}

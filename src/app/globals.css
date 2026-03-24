@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+@import "fumadocs-openapi/css/preset.css";
 :root {
   --foreground-color: #000000;
   --background-bg: #F3F4F4;
@@ -15,11 +18,44 @@
   --blue: #94EEFF;
   --vid-purple: #cda4eb;
   --vid-grey: #F3F4F4;
+
 }
 
 @theme {
   --font-inter: "Inter", sans-serif;
   --font-geist-mono: "Geist_Mono", sans-serif;
+
+  /* Fumadocs theme overrides */
+  --color-fd-primary: #7C5CFC;
+  --color-fd-primary-foreground: #ffffff;
+  --color-fd-background: #F3F4F4;
+  --color-fd-foreground: #000000;
+  --color-fd-border: hsla(200, 20%, 85%, 50%);
+  --color-fd-card: #ffffff;
+}
+
+/* Sidebar section dropdown tweaks */
+[data-radix-popper-content-wrapper] .text-fd-muted-foreground {
+  font-size: 0.6875rem;
+}
+[data-radix-popper-content-wrapper] a,
+aside button[data-state] {
+  gap: 0.75rem;
+}
+[data-radix-popper-content-wrapper] .shrink-0,
+aside button[data-state] > .shrink-0:first-child {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+/* Remove sidebar footer dividers */
+aside [data-sidebar] > hr {
+  display: none;
+}
+/* Consistent purple hover for all sidebar items */
+aside [data-sidebar] button.relative:hover,
+aside [data-sidebar] a.relative:hover {
+  background-color: color-mix(in srgb, var(--color-fd-primary) 10%, transparent);
+  color: var(--color-fd-primary);
 }
 
 html {
@@ -41,19 +77,25 @@ section{
   }
 }
 
-h1{
+/* Docs layout — constrain width so TOC sits near content, not screen edge */
+#nd-docs-layout {
+  --fd-layout-width: 90rem;
+}
+
+/* Marketing heading styles — scoped to NOT apply inside Fumadocs docs layout */
+h1:not(.prose *):not(#nd-docs-layout *){
   @apply text-[26px] sm:text-[32px] md:text-[52px] xl:text-[64px] font-medium tracking-[-0.06em] leading-[1em];
 }
 
-h2{
+h2:not(.prose *):not(#nd-docs-layout *){
   @apply text-xs md:text-sm font-medium uppercase font-geist-mono;
 }
 
-h3{
+h3:not(.prose *):not(#nd-docs-layout *){
   @apply font-inter font-medium tracking-[-0.05em] text-[38px] lg:text-[56px] leading-[1em];
 }
 
-h4{
+h4:not(.prose *):not(#nd-docs-layout *){
   @apply font-inter font-medium tracking-[-0.04em] text-[24px] md:text-[18px] lg:text-[24px] leading-[1em];
 }
 

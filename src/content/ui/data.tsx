@@ -25,6 +25,10 @@ export const uiData = {
       text: 'Ecosystem',
       href: '/#ecosystem',
       sectionId: 'ecosystem'
+    },
+    {
+      text: 'Docs',
+      href: '/docs'
     }
   ]
 }

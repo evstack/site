@@ -1,0 +1,4 @@
+{
+  "title": "EVM",
+  "pages": ["quickstart", "setup-ev-reth", "deploy-contracts"]
+}
