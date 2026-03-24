@@ -81,6 +81,16 @@ section{
 #nd-docs-layout {
   --fd-layout-width: 90rem;
 }
+/* Reduce docs page top padding by half */
+#nd-page {
+  padding-top: 0.75rem;
+}
+@media (min-width: 768px) {
+  #nd-page { padding-top: 1rem; }
+}
+@media (min-width: 1280px) {
+  #nd-page { padding-top: 1.75rem; }
+}
 
 /* Marketing heading styles — scoped to NOT apply inside Fumadocs docs layout */
 h1:not(.prose *):not(#nd-docs-layout *){

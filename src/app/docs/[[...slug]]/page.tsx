@@ -1,10 +1,12 @@
 import { source } from '@/lib/source'
 import { DocsBody, DocsPage, EditOnGitHub, PageLastUpdate } from 'fumadocs-ui/page'
+import { MarkdownCopyButton, ViewOptionsPopover } from 'fumadocs-ui/layouts/docs/page'
 import { notFound } from 'next/navigation'
 import { getMDXComponents } from '@/components/mdx'
 import type { Metadata } from 'next'
 
 const EDIT_URL_BASE = 'https://github.com/evstack/docs/edit/main'
+const GITHUB_BLOB_BASE = 'https://github.com/evstack/docs/blob/main'
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params
@@ -14,9 +16,15 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   const MDX = page.data.body
   const lastModified = page.data._exports.lastModified as Date | undefined
   const filePath = page.data.info.path
+  const markdownUrl = `/api/md/${page.slugs.join('/')}`
+  const githubUrl = `${GITHUB_BLOB_BASE}/${filePath}`
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full} tableOfContent={{ style: 'clerk' }}>
+      <div className="flex flex-row flex-wrap gap-2 items-center border-b pb-6 mb-2">
+        <MarkdownCopyButton markdownUrl={markdownUrl} />
+        <ViewOptionsPopover markdownUrl={markdownUrl} githubUrl={githubUrl} />
+      </div>
       <DocsBody>
         <MDX components={getMDXComponents()} />
       </DocsBody>
