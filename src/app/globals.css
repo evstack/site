@@ -89,7 +89,7 @@ section{
   #nd-page { padding-top: 1rem; }
 }
 @media (min-width: 1280px) {
-  #nd-page { padding-top: 1.75rem; }
+  #nd-page { padding-top: 1rem; }
 }
 
 /* Marketing heading styles — scoped to NOT apply inside Fumadocs docs layout */

@@ -26,6 +26,7 @@
     "react-markdown": "^10.1.0",
     "remark-directive": "^4.0.0",
     "sass": "^1.97.1",
+    "svg-pan-zoom": "^3.6.2",
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {

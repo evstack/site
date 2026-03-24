@@ -21,7 +21,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full} tableOfContent={{ style: 'clerk' }}>
-      <div className="flex flex-row flex-wrap gap-2 items-center border-b pb-6 mb-2">
+      <div className="flex flex-row flex-wrap gap-2 items-center pb-1 mb-1">
         <MarkdownCopyButton markdownUrl={markdownUrl} />
         <ViewOptionsPopover markdownUrl={markdownUrl} githubUrl={githubUrl} />
       </div>
