@@ -16,11 +16,6 @@ export function baseOptions(): BaseLayoutProps {
     githubUrl: 'https://github.com/evstack',
     links: [
       {
-        text: 'Documentation',
-        url: '/docs',
-        active: 'nested-url'
-      },
-      {
         type: 'icon',
         text: 'Twitter',
         label: 'Twitter',
