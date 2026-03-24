@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard } from 'lucide-react'
+import { House } from 'lucide-react'
 
 export function SidebarHomeLink() {
   const pathname = usePathname()
@@ -17,8 +17,8 @@ export function SidebarHomeLink() {
           : 'text-fd-muted-foreground hover:bg-fd-accent/50 hover:text-fd-accent-foreground/80'
       }`}
     >
-      <LayoutDashboard className="size-4" />
-      Overview
+      <House className="size-4" />
+      Home
     </Link>
   )
 }
