@@ -467,10 +467,10 @@ export function CelestiaGasEstimator() {
 
   /* ===== RENDER ===== */
   return (
-    <div className="flex flex-col gap-8 pb-12">
+    <div className="not-prose flex flex-col gap-8 pb-12">
       {/* ===== BLOCK PRODUCTION ===== */}
-      <section className="rounded-xl border border-fd-border bg-fd-card p-6 shadow-sm">
-        <h3 className="mt-0 mb-4 text-lg font-semibold">Block production</h3>
+      <section className="flex flex-col gap-4 rounded-xl border border-fd-border bg-fd-card p-5 sm:p-8 shadow-sm">
+        <h3 className="mt-0 mb-0 text-lg font-semibold">Block production</h3>
 
         <FieldRow label="Header size (bytes)" htmlFor="header-bytes">
           <input
@@ -504,15 +504,17 @@ export function CelestiaGasEstimator() {
           </div>
         </FieldRow>
 
-        <ul className="m-0 grid list-none gap-2 p-0">
-          <MetricRow label="Blocks / second" value={formatNumber(blocksPerSecond, 4)} />
-        </ul>
+        <div className="mt-2 rounded-lg bg-fd-primary/10 p-3">
+          <ul className="m-0 grid list-none gap-0 p-0">
+            <MetricRow label="Blocks / second" value={formatNumber(blocksPerSecond, 4)} />
+          </ul>
+        </div>
       </section>
 
       {/* ===== BATCHING STRATEGY ===== */}
-      <section className="rounded-xl border border-fd-border bg-fd-card p-6 shadow-sm">
-        <h3 className="mt-0 mb-4 text-lg font-semibold">Batching strategy</h3>
-        <p className="mb-5 text-sm text-fd-muted-foreground">
+      <section className="flex flex-col gap-5 rounded-xl border border-fd-border bg-fd-card p-5 sm:p-8 shadow-sm">
+        <h3 className="mt-0 mb-0 text-lg font-semibold">Batching strategy</h3>
+        <p className="m-0 text-sm text-fd-muted-foreground">
           Controls how blocks are batched before submission to the DA layer. Different strategies
           offer trade-offs between latency, cost efficiency, and throughput.
         </p>
@@ -531,7 +533,7 @@ export function CelestiaGasEstimator() {
           </select>
         </FieldRow>
 
-        <div className="my-5 rounded-lg border-l-[3px] border-fd-primary bg-fd-background px-4 py-3">
+        <div className="rounded-lg border-l-[3px] border-fd-primary bg-fd-background px-4 py-3">
           {batchingStrategy === 'immediate' && (
             <p className="m-0 text-sm leading-relaxed">
               <strong>Immediate:</strong> Submits as soon as any blocks are available. Best for
@@ -626,35 +628,36 @@ export function CelestiaGasEstimator() {
           />
         </FieldRow>
 
-        <p className="mt-4 mb-0 text-sm text-fd-muted-foreground">
+        <p className="m-0 text-sm text-fd-muted-foreground">
           Header and data submission rates are shown in the Estimation section below, based on your
           data workload configuration.
         </p>
       </section>
 
       {/* ===== DATA WORKLOAD ===== */}
-      <section className="rounded-xl border border-fd-border bg-fd-card p-6 shadow-sm">
-        <h3 className="mt-0 mb-4 text-lg font-semibold">Data workload</h3>
-
-        <div className="mb-4 flex gap-4 font-semibold">
-          <label className="flex items-center gap-1.5 cursor-pointer">
-            <input
-              type="radio"
-              value="evm"
-              checked={executionEnv === 'evm'}
-              onChange={() => setExecutionEnv('evm')}
-            />
-            EVM
-          </label>
-          <label className="flex items-center gap-1.5 cursor-pointer">
-            <input
-              type="radio"
-              value="cosmos"
-              checked={executionEnv === 'cosmos'}
-              onChange={() => setExecutionEnv('cosmos')}
-            />
-            Cosmos SDK
-          </label>
+      <section className="flex flex-col gap-5 rounded-xl border border-fd-border bg-fd-card p-5 sm:p-8 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h3 className="mt-0 mb-0 text-lg font-semibold">Data workload</h3>
+          <div className="flex gap-4 text-sm font-semibold">
+            <label className="flex items-center gap-1.5 cursor-pointer">
+              <input
+                type="radio"
+                value="evm"
+                checked={executionEnv === 'evm'}
+                onChange={() => setExecutionEnv('evm')}
+              />
+              EVM
+            </label>
+            <label className="flex items-center gap-1.5 cursor-pointer">
+              <input
+                type="radio"
+                value="cosmos"
+                checked={executionEnv === 'cosmos'}
+                onChange={() => setExecutionEnv('cosmos')}
+              />
+              Cosmos SDK
+            </label>
+          </div>
         </div>
 
         {executionEnv === 'cosmos' ? (
@@ -757,7 +760,7 @@ export function CelestiaGasEstimator() {
               </div>
 
               {/* Legend */}
-              <ul className="m-0 flex list-none flex-col gap-4 p-0">
+              <ul className="m-0 flex list-none flex-col gap-2 p-0">
                 {mixSlices.map((slice) => (
                   <li key={slice.id} className="flex items-start gap-3">
                     <span
@@ -820,7 +823,7 @@ export function CelestiaGasEstimator() {
             </details>
 
             {/* Metrics summary */}
-            <div className="flex flex-col gap-2 rounded-xl bg-fd-primary/10 p-4">
+            <div className="rounded-xl bg-fd-primary/10 p-4">
               <MetricRow
                 label="Average calldata bytes / tx"
                 value={formatNumber(averageCalldataBytes, 2)}
@@ -848,14 +851,14 @@ export function CelestiaGasEstimator() {
       </section>
 
       {/* ===== GAS PARAMETERS ===== */}
-      <section className="rounded-xl border border-fd-border bg-fd-card p-6 shadow-sm">
-        <h3 className="mt-0 mb-4 text-lg font-semibold">Gas parameters</h3>
-        <p className="mb-5 text-sm text-fd-muted-foreground">
+      <section className="flex flex-col gap-5 rounded-xl border border-fd-border bg-fd-card p-5 sm:p-8 shadow-sm">
+        <h3 className="mt-0 mb-0 text-lg font-semibold">Gas parameters</h3>
+        <p className="m-0 text-sm text-fd-muted-foreground">
           Locked to Celestia mainnet defaults until live parameter fetching and manual overrides
           ship.
         </p>
 
-        <ul className="m-0 mb-6 grid list-none gap-2 p-0">
+        <ul className="m-0 grid list-none gap-0 p-0">
           <MetricRow label="Fixed cost" value={`${formatInteger(GAS_PARAMS.fixedCost)} gas`} />
           <MetricRow
             label="Gas per blob byte"
@@ -867,7 +870,7 @@ export function CelestiaGasEstimator() {
           />
         </ul>
 
-        <div className="mb-4">
+        <div>
           <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium">
             <input
               type="checkbox"
@@ -892,11 +895,11 @@ export function CelestiaGasEstimator() {
       </section>
 
       {/* ===== ESTIMATION ===== */}
-      <section className="rounded-xl border border-fd-border bg-fd-card p-6 shadow-sm">
-        <h3 className="mt-0 mb-4 text-lg font-semibold">Estimation</h3>
+      <section className="flex flex-col gap-6 rounded-xl border border-fd-border bg-fd-card p-5 sm:p-8 shadow-sm">
+        <h3 className="mt-0 mb-0 text-lg font-semibold">Estimation</h3>
 
         {/* Summary cards */}
-        <div className="mb-6 grid gap-4 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <SummaryCard
             label="Total yearly fee (TIA)"
             value={formatNumber(totalRecurringFeePerYearTIA, 4)}
@@ -911,9 +914,9 @@ export function CelestiaGasEstimator() {
         </div>
 
         {/* Header costs */}
-        <details open>
+        <details className="rounded-lg border border-fd-border p-4" open>
           <summary className="mb-3 cursor-pointer font-semibold">Header costs</summary>
-          <ul className="m-0 mb-6 grid list-none gap-2 p-0">
+          <ul className="m-0 grid list-none gap-0 p-0">
             <MetricRow
               label="Header submission interval (s)"
               value={formatNumber(headerSubmissionIntervalSeconds, 2)}
@@ -937,14 +940,14 @@ export function CelestiaGasEstimator() {
         </details>
 
         {/* Data costs */}
-        <details open={executionEnv === 'evm'}>
+        <details className="rounded-lg border border-fd-border p-4" open={executionEnv === 'evm'}>
           <summary className="mb-3 cursor-pointer font-semibold">Data costs</summary>
           {averageCalldataBytes === 0 ? (
             <p className="mb-6 text-sm text-fd-muted-foreground">
               Enable at least one transaction type to model calldata usage.
             </p>
           ) : (
-            <ul className="m-0 mb-6 grid list-none gap-2 p-0">
+            <ul className="m-0 grid list-none gap-0 p-0">
               <MetricRow label="Data bytes / second" value={formatNumber(dataBytesPerSecond, 2)} />
               <MetricRow
                 label="Data submission interval (s)"
@@ -981,11 +984,11 @@ export function CelestiaGasEstimator() {
         </details>
 
         {/* Fixed costs (PFB base gas) */}
-        <details>
+        <details className="rounded-lg border border-fd-border p-4">
           <summary className="mb-3 cursor-pointer font-semibold">
             Fixed costs (PFB base gas)
           </summary>
-          <ul className="m-0 mb-6 grid list-none gap-2 p-0">
+          <ul className="m-0 grid list-none gap-0 p-0">
             <MetricRow
               label="Header PFB base gas"
               value={`${formatInteger(GAS_PARAMS.fixedCost)} gas`}
@@ -1019,9 +1022,9 @@ export function CelestiaGasEstimator() {
         </details>
 
         {/* Throughput metrics */}
-        <details>
+        <details className="rounded-lg border border-fd-border p-4">
           <summary className="mb-3 cursor-pointer font-semibold">Throughput metrics</summary>
-          <ul className="m-0 mb-6 grid list-none gap-2 p-0">
+          <ul className="m-0 grid list-none gap-0 p-0">
             <MetricRow label="Transactions per second" value={formatNumber(txPerSecond, 4)} />
             <MetricRow label="Transactions per year" value={formatNumber(txPerYear, 0)} />
             <MetricRow
@@ -1051,7 +1054,7 @@ function FieldRow({
   children: React.ReactNode
 }) {
   return (
-    <div className="mb-5 flex flex-col gap-1.5">
+    <div className="flex flex-col gap-1.5">
       <label htmlFor={htmlFor} className="text-sm font-semibold">
         {label}
       </label>
@@ -1062,8 +1065,8 @@ function FieldRow({
 
 function MetricRow({ label, value }: { label: string; value: string }) {
   return (
-    <li className="flex items-baseline justify-between gap-4 text-sm">
-      <span>{label}</span>
+    <li className="flex items-baseline justify-between gap-4 border-b border-fd-border/50 py-1.5 text-sm last:border-0">
+      <span className="text-fd-muted-foreground">{label}</span>
       <strong className="tabular-nums">{value}</strong>
     </li>
   )
