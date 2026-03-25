@@ -4,7 +4,7 @@ description: Evolve documentation - build sovereign rollups on any DA layer
 ---
 
 import { Card, Cards } from 'fumadocs-ui/components/card';
-import { BookOpen, Rocket, Wrench, Unplug, Library, Blocks, Cpu, Database, Layers, Play, Upload, Monitor, ArrowRightLeft, Settings } from 'lucide-react';
+import { BookOpen, Rocket, Wrench, Unplug, Library, Blocks, Cpu, Database, Layers, Play, Upload, Monitor, ArrowRightLeft, Settings, Bot, LayoutDashboard } from 'lucide-react';
 
 export const Icon = ({ children }) => (
   <span className="text-fd-primary">{children}</span>
@@ -19,6 +19,8 @@ Evolve is a sovereign rollup framework that enables developers to build rollups 
 <Cards>
   <Card icon={<Icon><Rocket /></Icon>} title="Quick Start" description="Build your first rollup in minutes" href="/docs/guides/quick-start" />
   <Card icon={<Icon><BookOpen /></Icon>} title="About Evolve" description="Learn the fundamentals and core concepts" href="/docs/learn/about" />
+  <Card icon={<Icon><LayoutDashboard /></Icon>} title="Architecture" description="Understand how Evolve components work together" href="/docs/overview/architecture" />
+  <Card icon={<Icon><Bot /></Icon>} title="AI-Ready Docs" description="Use with Claude Code, Cursor, ChatGPT, and more" href="/docs/guides/ai-docs" />
 </Cards>
 
 ## Learn

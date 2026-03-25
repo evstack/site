@@ -13,7 +13,10 @@ export const docs = defineDocs({
     schema: frontmatterSchema.extend({
       title: z.string().optional().default(''),
       full: z.boolean().optional().default(false)
-    })
+    }),
+    postprocess: {
+      includeProcessedMarkdown: true
+    }
   }
 })
 

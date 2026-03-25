@@ -4,6 +4,7 @@
   "icon": "Wrench",
   "root": true,
   "pages": [
+    "ai-docs",
     "quick-start",
     "gm-world",
     "da",

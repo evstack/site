@@ -3,7 +3,7 @@ import { createMDX } from 'fumadocs-mdx/next';
 // Doc sections that previously lived at the root in VitePress
 const docSections = [
   'adr',
-  'api',
+  // 'api' excluded — conflicts with /api/ routes (md, search)
   'concepts',
   'ev-abci',
   'ev-reth',

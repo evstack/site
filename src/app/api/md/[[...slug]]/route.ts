@@ -9,11 +9,11 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ slu
   const page = source.getPage(slug)
   if (!page) notFound()
 
-  const text = await page.data.getText('raw')
+  const text = await page.data.getText('processed')
 
   return new NextResponse(text, {
     headers: {
-      'Content-Type': 'text/markdown'
+      'Content-Type': 'text/markdown; charset=utf-8'
     }
   })
 }
