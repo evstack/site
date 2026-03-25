@@ -1,20 +1,12 @@
-import fs from 'fs/promises'
-import path from 'path'
 import ReactMarkdown from 'react-markdown'
+import { legalPages, type LegalPageFileName } from '@/content/legal-pages'
 
 type LegalPageProps = {
-  fileName: string
+  fileName: LegalPageFileName
 }
 
-const contentDir = path.join(process.cwd(), 'src/content')
-
-async function readMarkdownFile(fileName: string) {
-  const filePath = path.join(contentDir, fileName)
-  return fs.readFile(filePath, 'utf8')
-}
-
-export default async function LegalPage({ fileName }: LegalPageProps) {
-  const markdown = await readMarkdownFile(fileName)
+export default function LegalPage({ fileName }: LegalPageProps) {
+  const markdown = legalPages[fileName]
 
   return (
     <main className="legal-page">
