@@ -84,6 +84,11 @@ section:not(#nd-docs-layout *){
   }
 }
 
+/* Remove shadows from code blocks and callouts */
+#nd-docs-layout figure.shiki,
+#nd-docs-layout .prose > .bg-fd-card {
+  box-shadow: none !important;
+}
 /* Docs layout — constrain width so TOC sits near content, not screen edge */
 #nd-docs-layout {
   --fd-layout-width: 90rem;
