@@ -42,10 +42,17 @@
 aside button[data-state] {
   gap: 0.75rem;
 }
+/* Align tab icons to top in dropdown, matching desktop sidebar */
+[data-radix-popper-content-wrapper] a > .shrink-0:first-child {
+  align-self: flex-start;
+  margin-top: 0;
+}
 [data-radix-popper-content-wrapper] .shrink-0,
 aside button[data-state] > .shrink-0:first-child {
   width: 1.125rem;
   height: 1.125rem;
+  align-self: flex-start;
+  margin-top: 0.2rem;
 }
 /* Remove sidebar footer dividers */
 aside [data-sidebar] > hr {
@@ -81,15 +88,14 @@ section{
 #nd-docs-layout {
   --fd-layout-width: 90rem;
 }
-/* Reduce docs page top padding by half */
-#nd-page {
-  padding-top: 0.75rem;
-}
+/* Docs page top padding adjustments */
+#nd-page { padding-top: 1.4rem; }
 @media (min-width: 768px) {
-  #nd-page { padding-top: 1rem; }
+  #nd-page { padding-top: 1.3rem; }
 }
 @media (min-width: 1280px) {
-  #nd-page { padding-top: 1rem; }
+  #nd-page { padding-top: 3.7rem; }
+  #nd-toc { padding-top: 3.7rem; }
 }
 
 /* Marketing heading styles — scoped to NOT apply inside Fumadocs docs layout */

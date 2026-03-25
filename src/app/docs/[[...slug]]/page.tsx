@@ -20,8 +20,21 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   const githubUrl = `${GITHUB_BLOB_BASE}/${filePath}`
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full} tableOfContent={{ style: 'clerk' }}>
-      <div className="flex flex-row flex-wrap gap-2 items-center pb-0 mb-0">
+    <DocsPage
+      toc={page.data.toc}
+      full={page.data.full}
+      tableOfContent={{
+        style: 'clerk',
+        header: (
+          <div className="flex flex-row flex-wrap gap-2 items-center mb-9">
+            <MarkdownCopyButton markdownUrl={markdownUrl} />
+            <ViewOptionsPopover markdownUrl={markdownUrl} githubUrl={githubUrl} />
+          </div>
+        )
+      }}
+    >
+      {/* Mobile/tablet: show copy actions above title (hidden on xl where TOC has them) */}
+      <div className="flex flex-row flex-wrap gap-2 items-center xl:hidden mb-4">
         <MarkdownCopyButton markdownUrl={markdownUrl} />
         <ViewOptionsPopover markdownUrl={markdownUrl} githubUrl={githubUrl} />
       </div>
