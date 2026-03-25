@@ -26,7 +26,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       tableOfContent={{
         style: 'clerk',
         header: (
-          <div className="flex flex-row flex-wrap gap-2 items-center mb-9">
+          <div key="toc-actions" className="flex flex-row flex-wrap gap-2 items-center mb-9">
             <MarkdownCopyButton markdownUrl={markdownUrl} />
             <ViewOptionsPopover markdownUrl={markdownUrl} githubUrl={githubUrl} />
           </div>

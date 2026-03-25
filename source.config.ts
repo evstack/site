@@ -4,6 +4,7 @@ import { remarkDirectiveAdmonition, remarkMdxMermaid } from 'fumadocs-core/mdx-p
 import { remarkTemplateVars } from './src/plugins/remark-template-vars'
 import { remarkVitepressCodeGroup } from './src/plugins/remark-vitepress-codegroup'
 import { remarkStripMdLinks } from './src/plugins/remark-strip-md-links'
+import { remarkStripTextDirectives } from './src/plugins/remark-strip-text-directives'
 import { z } from 'zod'
 import lastModified from 'fumadocs-mdx/plugins/last-modified'
 
@@ -26,6 +27,7 @@ export default defineConfig({
     remarkPlugins: (defaults) => [
       remarkDirective,
       remarkDirectiveAdmonition,
+      remarkStripTextDirectives,
       remarkVitepressCodeGroup,
       remarkTemplateVars,
       remarkStripMdLinks,
