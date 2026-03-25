@@ -1,0 +1,15 @@
+{
+  "root": true,
+  "pages": [
+    "learn",
+    "getting-started",
+    "guides",
+    "api",
+    "reference",
+    "concepts",
+    "overview",
+    "ev-abci",
+    "ev-reth",
+    "adr"
+  ]
+}

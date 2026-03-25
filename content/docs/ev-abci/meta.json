@@ -1,0 +1,5 @@
+{
+  "title": "EV-ABCI",
+  "icon": "Blocks",
+  "pages": ["...", "modules"]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Learn",
+  "description": "Core concepts and architecture",
+  "icon": "BookOpen",
+  "root": true,
+  "pages": [
+    "about",
+    "data-availability",
+    "sequencing",
+    "execution",
+    "specs",
+    "transaction-flow",
+    "config"
+  ]
+}
