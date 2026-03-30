@@ -99,6 +99,7 @@ export default defineConfig({
           }
         }
       ],
+      favicon: '/favicon/favicon.ico',
       disable404Route: true
     }),
     react(),
