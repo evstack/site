@@ -1,7 +1,5 @@
 'use client'
 import { content } from '@/content/homepage/data'
-import Image from 'next/image'
-import Link from 'next/dist/client/link'
 import Button from '@/components/ui/molecules/Button'
 import { motion } from 'motion/react'
 
@@ -11,15 +9,13 @@ const EcosystemSection = () => {
       <div
         className={
           'w-full lg:rounded-2xl bg-diagonal-black pt-12 lg:pt-25 pb-8 flex justify-center xl:mb-4 px-4 lg:px-8 xl:px-0'
-        }
-      >
+        }>
         <div className={'container'}>
           <div className={'grid grid-cols-1 lg:grid-cols-2 gap-2'}>
             <div
               className={
                 'rounded-3xl bg-[#101010] p-6 max-lg:pt-12 lg:p-12 flex flex-wrap justify-center'
-              }
-            >
+              }>
               <div>
                 <div className={'grid grid-cols-1 gap-1'}>
                   <div className={''}>
@@ -28,8 +24,7 @@ const EcosystemSection = () => {
                       whileInView={{ opacity: 1 }}
                       transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
                       viewport={{ once: true }}
-                      className={'text-center text-(--smoke)'}
-                    >
+                      className={'text-center text-(--smoke)'}>
                       {content.ecosytemSection.subtitle}
                     </motion.h2>
                   </div>
@@ -39,8 +34,7 @@ const EcosystemSection = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                       viewport={{ once: true }}
-                      className={'text-center text-white'}
-                    >
+                      className={'text-center text-white'}>
                       {content.ecosytemSection.title}
                     </motion.h3>
                   </div>
@@ -50,8 +44,7 @@ const EcosystemSection = () => {
                       whileInView={{ opacity: 1 }}
                       transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.5 }}
                       viewport={{ once: true }}
-                      className={'text-[#C8C8C8] text-sm leading-[1.5em] text-center'}
-                    >
+                      className={'text-[#C8C8C8] text-sm leading-[1.5em] text-center'}>
                       {content.ecosytemSection.text}
                     </motion.p>
                   </div>
@@ -63,13 +56,11 @@ const EcosystemSection = () => {
                         key={index}
                         className={
                           'grid grid-cols-12 items-center divide-x divide-dashed divide-[#303030]'
-                        }
-                      >
+                        }>
                         <p
                           className={
                             'col-span-4 text-white text-base font-semibold tracking-[-0.04em] pl-4 lg:pl-8 py-4.5'
-                          }
-                        >
+                          }>
                           {row.title}
                         </p>
                         <p className={'col-span-8 text-[#C8C8C8] text-sm pl-4 lg:pl-8'}>
@@ -90,15 +81,13 @@ const EcosystemSection = () => {
                       transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 + index * 0.1 }}
                       viewport={{ once: true }}
                       key={index}
-                      className={'text-white'}
-                    >
-                      <Link href={cta.href}>
+                      className={'text-white'}>
+                      <a href={cta.href}>
                         <div className={'flex items-center gap-2 group'}>
                           <span
                             className={
                               'font-geist-mono text-[13px] font-medium uppercase group-hover:text-(--purple) transition-all ease-in-out duration-300'
-                            }
-                          >
+                            }>
                             {cta.text}
                           </span>
                           <svg
@@ -106,8 +95,7 @@ const EcosystemSection = () => {
                             height="24"
                             viewBox="0 0 24 24"
                             fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
+                            xmlns="http://www.w3.org/2000/svg">
                             <rect
                               width="24"
                               height="24"
@@ -123,7 +111,7 @@ const EcosystemSection = () => {
                             />
                           </svg>
                         </div>
-                      </Link>
+                      </a>
                     </motion.div>
                   ))}
                 </div>
@@ -132,14 +120,13 @@ const EcosystemSection = () => {
             <div className={'rounded-3xl bg-[#101010] p-6 lg:p-12 xl:p-8'}>
               <div className={'flex flex-wrap gap-y-4'}>
                 <div className={'w-full flex justify-center pt-8 lg:pt-13'}>
-                  <Image src={'evolve-logo.svg'} alt={'Evolve'} width={154} height={38} />
+                  <img src={'/evolve-logo.svg'} alt={'Evolve'} width={154} height={38} />
                 </div>
                 <div className={'w-full pt-6'}>
                   <h3
                     className={
                       'text-[32px]! lg:text-[48px]! font-semibold! leading-[1.04em]! tracking-[-0.04em]! bg-linear-to-r from-(--purple) via-(--blue) to-(--yellow) text-transparent bg-clip-text bg-300% animate-gradient text-center'
-                    }
-                  >
+                    }>
                     {content.ecosytemSection.deploy.title}
                   </h3>
                 </div>
@@ -147,22 +134,20 @@ const EcosystemSection = () => {
                   <p
                     className={
                       'text-base lg:text-[18px] text-[#c8c8c8] leading-[1.22em] tracking-[-0.02em] font-medium text-center'
-                    }
-                  >
+                    }>
                     {content.ecosytemSection.deploy.text}
                   </p>
                 </div>
                 <div className={'w-full flex justify-center'}>
-                  <Link href={content.ecosytemSection.deploy.cta.href}>
+                  <a href={content.ecosytemSection.deploy.cta.href}>
                     <Button variant={'secondary'}>{content.ecosytemSection.deploy.cta.text}</Button>
-                  </Link>
+                  </a>
                 </div>
 
                 <div
                   className={
                     'w-full justify-center flex flex-wrap gap-x-4 gap-y-4 lg:gap-x-8 mt-10 lg:mt-20'
-                  }
-                >
+                  }>
                   {content.ecosytemSection.deploy.socials.map((social, index) => (
                     <a key={index} href={social.href} target="_blank">
                       <div className={'flex gap-x-2 lg:gap-x-3 text-white items-center group'}>
@@ -173,8 +158,7 @@ const EcosystemSection = () => {
                           viewport={{ once: true }}
                           className={
                             'w-10 h-10 bg-[#1e1e1e] rounded-full items-center justify-center flex transition-all duration-300 ease-in-out group-hover:bg-(--purple)'
-                          }
-                        >
+                          }>
                           {social.icon}
                         </motion.div>
                         <motion.div
@@ -188,8 +172,7 @@ const EcosystemSection = () => {
                           viewport={{ once: true }}
                           className={
                             'text-sm font-geist-mono font-medium uppercase transition-all duration-300 ease-in-out group-hover:text-(--purple)'
-                          }
-                        >
+                          }>
                           {social.text}
                         </motion.div>
                       </div>

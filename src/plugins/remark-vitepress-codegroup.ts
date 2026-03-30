@@ -4,7 +4,8 @@ import { visit } from 'unist-util-visit'
 
 /**
  * Remark plugin that converts VitePress :::code-group containers
- * into Fumadocs <Tabs> + <Tab> components.
+ * into Starlight <Tabs> + <TabItem> components, and auto-injects
+ * the import statement.
  *
  * Input:
  * :::code-group
@@ -16,18 +17,20 @@ import { visit } from 'unist-util-visit'
  * ```
  * :::
  *
- * Output: JSX <Tabs groupId="..."><Tab value="Arabica">...</Tab>...</Tabs>
+ * Output: JSX <Tabs><TabItem label="Arabica">...</TabItem>...</Tabs>
  */
 export function remarkVitepressCodeGroup() {
   return (tree: Root) => {
+    let hasCodeGroup = false
+
     visit(tree, 'containerDirective', (node: ContainerDirective, index, parent) => {
       if (node.name !== 'code-group' || !parent || index === undefined) return
 
+      hasCodeGroup = true
       const tabs: { label: string; code: Code }[] = []
 
       for (const child of node.children) {
         if (child.type === 'code') {
-          // Extract tab label from meta, e.g. "sh [Arabica]" -> "Arabica"
           const metaMatch = child.meta?.match(/\[([^\]]+)\]/)
           const label = metaMatch ? metaMatch[1] : child.lang || 'Code'
           tabs.push({ label, code: child })
@@ -36,18 +39,10 @@ export function remarkVitepressCodeGroup() {
 
       if (tabs.length === 0) return
 
-      // Create a deterministic groupId from sorted tab labels for cross-page syncing
-      const sortedLabels = [...tabs.map((t) => t.label)].sort()
-      const groupId = sortedLabels
-        .join('-')
-        .toLowerCase()
-        .replace(/[^a-z0-9-]/g, '')
-
-      // Build JSX AST for <Tabs> with <Tab> children
       const tabItems = tabs.map((tab) => ({
         type: 'mdxJsxFlowElement' as const,
-        name: 'Tab',
-        attributes: [{ type: 'mdxJsxAttribute' as const, name: 'value', value: tab.label }],
+        name: 'TabItem',
+        attributes: [{ type: 'mdxJsxAttribute' as const, name: 'label', value: tab.label }],
         children: [tab.code],
         data: { _mdxExplicitJsx: true }
       }))
@@ -55,41 +50,44 @@ export function remarkVitepressCodeGroup() {
       const tabsNode = {
         type: 'mdxJsxFlowElement' as const,
         name: 'Tabs',
-        attributes: [
-          { type: 'mdxJsxAttribute' as const, name: 'groupId', value: groupId },
-          {
-            type: 'mdxJsxAttribute' as const,
-            name: 'items',
-            value: {
-              type: 'mdxJsxAttributeValueExpression' as const,
-              value: JSON.stringify(tabs.map((t) => t.label)),
-              data: {
-                estree: {
-                  type: 'Program',
-                  sourceType: 'module',
-                  body: [
-                    {
-                      type: 'ExpressionStatement',
-                      expression: {
-                        type: 'ArrayExpression',
-                        elements: tabs.map((t) => ({
-                          type: 'Literal',
-                          value: t.label
-                        }))
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        ],
+        attributes: [],
         children: tabItems,
         data: { _mdxExplicitJsx: true }
       }
 
-      // Replace the directive node with the Tabs node
       parent.children[index] = tabsNode as unknown as typeof node
     })
+
+    // Inject Starlight Tabs/TabItem import if code-groups were found
+    if (hasCodeGroup) {
+      tree.children.unshift({
+        type: 'mdxjsEsm' as any,
+        value: 'import { Tabs, TabItem } from "@astrojs/starlight/components"',
+        data: {
+          estree: {
+            type: 'Program',
+            sourceType: 'module',
+            body: [
+              {
+                type: 'ImportDeclaration',
+                source: { type: 'Literal', value: '@astrojs/starlight/components' },
+                specifiers: [
+                  {
+                    type: 'ImportSpecifier',
+                    imported: { type: 'Identifier', name: 'Tabs' },
+                    local: { type: 'Identifier', name: 'Tabs' }
+                  },
+                  {
+                    type: 'ImportSpecifier',
+                    imported: { type: 'Identifier', name: 'TabItem' },
+                    local: { type: 'Identifier', name: 'TabItem' }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      })
+    }
   }
 }

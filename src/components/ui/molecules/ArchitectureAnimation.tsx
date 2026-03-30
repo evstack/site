@@ -7,7 +7,7 @@ interface AnimationProps {
   artboard: string
   stateMachine: string
   src?: string
-  // eslint-disable-next-line no-unused-vars
+
   setActiveLayer: (activeLayer: number) => void
   activeLayer: number
 }
@@ -38,7 +38,6 @@ const ArchitectureAnimation = ({
 
   useEffect(() => {
     if (riveIndexNum) {
-      // eslint-disable-next-line react-hooks/immutability
       riveIndexNum.value = activeLayer
       lastRiveValueRef.current = activeLayer
     }

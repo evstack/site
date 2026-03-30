@@ -12,7 +12,7 @@ interface AnimationProps {
   artboard: string
   stateMachine: string
   src?: string
-  // eslint-disable-next-line no-unused-vars
+
   setActiveLayer: (activeLayer: number) => void
   activeLayer: number
 }

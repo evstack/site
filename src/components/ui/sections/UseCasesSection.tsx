@@ -1,7 +1,6 @@
 'use client'
 import React, { Fragment, useState } from 'react'
 import { content } from '@/content/homepage/data'
-import Link from 'next/dist/client/link'
 import Button from '@/components/ui/molecules/Button'
 import { motion } from 'motion/react'
 import Animation from '@/components/ui/molecules/Animation'
@@ -33,8 +32,7 @@ const UseCasesSection = () => {
                     whileInView={{ opacity: 1 }}
                     transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
                     viewport={{ once: true }}
-                    className={''}
-                  >
+                    className={''}>
                     {content.useCasesSection.subtitle}
                   </motion.h2>
                 </div>
@@ -44,8 +42,7 @@ const UseCasesSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                     viewport={{ once: true }}
-                    className={''}
-                  >
+                    className={''}>
                     {content.useCasesSection.title}
                   </motion.h3>
                 </div>
@@ -54,11 +51,10 @@ const UseCasesSection = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.5 }}
                   viewport={{ once: true }}
-                  className={'pt-4 md:pt-6'}
-                >
-                  <Link href={content.useCasesSection.cta.href}>
+                  className={'pt-4 md:pt-6'}>
+                  <a href={content.useCasesSection.cta.href}>
                     <Button>{content.useCasesSection.cta.text}</Button>
-                  </Link>
+                  </a>
                 </motion.div>
               </div>
               <div className={'self-end max-md:pt-12'}>
@@ -70,8 +66,7 @@ const UseCasesSection = () => {
                         whileInView={{ scale: 1 }}
                         transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 + index * 0.1 }}
                         viewport={{ once: true }}
-                        className={'mb-6 origin-center'}
-                      >
+                        className={'mb-6 origin-center'}>
                         {stat.icon}
                       </motion.div>
                       <motion.div
@@ -81,8 +76,7 @@ const UseCasesSection = () => {
                         viewport={{ once: true }}
                         className={
                           'text-[42px] lg:text-[56px] font-medium tracking-[-0.08em] leading-[0.9em]'
-                        }
-                      >
+                        }>
                         {stat.text}
                       </motion.div>
                       <motion.div
@@ -92,8 +86,7 @@ const UseCasesSection = () => {
                         viewport={{ once: true }}
                         className={
                           'text-xs md:text-sm font-geist-mono font-medium uppercase text-(--darkgray)'
-                        }
-                      >
+                        }>
                         {stat.title}
                       </motion.div>
                     </div>
@@ -128,13 +121,11 @@ const UseCasesSection = () => {
                           onAnimationComplete={() => markAnimationComplete(animationKey)}
                           className={
                             'p-8 md:p-4 lg:p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap transform-gpu will-change-transform'
-                          }
-                        >
+                          }>
                           <div
                             className={
                               'flex flex-1 items-center justify-center mx-auto max-w-full overflow-hidden'
-                            }
-                          >
+                            }>
                             {box.animation && (
                               <div className={'aspect-40/20 w-full'}>
                                 <Animation
@@ -151,8 +142,7 @@ const UseCasesSection = () => {
                               whileInView={{ opacity: 1, x: 0 }}
                               transition={{ duration: 0.5, ease: 'easeInOut', delay: 0 }}
                               viewport={{ once: true }}
-                              className={'mb-2'}
-                            >
+                              className={'mb-2'}>
                               {box.title}
                             </motion.h4>
                             <motion.p
@@ -162,8 +152,7 @@ const UseCasesSection = () => {
                               viewport={{ once: true }}
                               className={
                                 'text-sm md:text-xs lg:text-sm text-(--darkgray) leading-[1.71em]'
-                              }
-                            >
+                              }>
                               {box.text}
                             </motion.p>
                           </div>
@@ -193,13 +182,11 @@ const UseCasesSection = () => {
                           onAnimationComplete={() => markAnimationComplete(animationKey)}
                           className={
                             'p-8 md:p-4 lg:p-8 bg-white rounded-2xl h-100 w-full flex flex-wrap transform-gpu will-change-transform'
-                          }
-                        >
+                          }>
                           <motion.div
                             className={
                               'flex flex-1 items-center justify-center mx-auto overflow-hidden'
-                            }
-                          >
+                            }>
                             {box.animation && (
                               <div className={'aspect-40/20 w-full'}>
                                 <Animation
@@ -216,8 +203,7 @@ const UseCasesSection = () => {
                               whileInView={{ opacity: 1, x: 0 }}
                               transition={{ duration: 0.5, ease: 'easeInOut', delay: 0 }}
                               viewport={{ once: true }}
-                              className={'mb-2'}
-                            >
+                              className={'mb-2'}>
                               {box.title}
                             </motion.h4>
                             <motion.p
@@ -227,8 +213,7 @@ const UseCasesSection = () => {
                               viewport={{ once: true }}
                               className={
                                 'text-sm md:text-xs lg:text-sm text-(--darkgray) leading-[1.71em]'
-                              }
-                            >
+                              }>
                               {box.text}
                             </motion.p>
                           </div>

@@ -1,0 +1,12 @@
+---
+import MarketingLayout from '@/layouts/MarketingLayout.astro'
+import LegalPage from '@/components/ui/organisms/LegalPage'
+import EcosystemSection from '@/components/ui/sections/EcosystemSection'
+---
+
+<MarketingLayout
+  title="Privacy Policy | Evolve"
+  description="Learn about how we collect, use, and protect your personal information.">
+  <LegalPage fileName="privacy-policy.md" client:load />
+  <EcosystemSection client:visible />
+</MarketingLayout>

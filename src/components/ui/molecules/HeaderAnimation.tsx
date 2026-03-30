@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect } from 'react'
 import { useRive } from '@rive-app/react-webgl2'
 

@@ -1,0 +1,10 @@
+# Legacy VitePress path redirects
+/learn/* /docs/learn/:splat 301
+/getting-started/* /docs/getting-started/:splat 301
+/guides/* /docs/guides/:splat 301
+/concepts/* /docs/concepts/:splat 301
+/overview/* /docs/overview/:splat 301
+/reference/* /docs/reference/:splat 301
+/ev-abci/* /docs/ev-abci/:splat 301
+/ev-reth/* /docs/ev-reth/:splat 301
+/adr/* /docs/adr/:splat 301
