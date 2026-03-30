@@ -28,7 +28,7 @@ export const uiData = {
     },
     {
       text: 'Docs',
-      href: 'https://docs.evolve.com'
+      href: 'https://docs.ev.xyz'
     }
   ]
 }
