@@ -13,20 +13,13 @@
   "dependencies": {
     "@astrojs/react": "^5.0.2",
     "@astrojs/sitemap": "^3.7.2",
-    "@astrojs/starlight": "^0.38.2",
     "@rive-app/react-webgl2": "^4.27.0",
-    "ajv": "^8.18.0",
     "astro": "^6.1.1",
-    "lucide-react": "^1.7.0",
-    "mermaid": "^11.13.0",
     "motion": "^12.35.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-fast-marquee": "^1.6.5",
     "react-markdown": "^10.1.0",
-    "remark-directive": "^4.0.0",
-    "starlight-openapi": "^0.24.0",
-    "svg-pan-zoom": "^3.6.2",
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {

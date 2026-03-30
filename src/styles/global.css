@@ -21,18 +21,6 @@
 @theme {
   --font-inter: "Inter", sans-serif;
   --font-geist-mono: "Geist_Mono", sans-serif;
-
-  /* Starlight theme overrides */
-  --sl-color-accent: #7C5CFC;
-  --sl-color-accent-high: #ffffff;
-  --sl-color-bg: #F3F4F4;
-  --sl-color-text: #000000;
-}
-
-/* Override Starlight background */
-:root {
-  --sl-color-bg: #F3F4F4;
-  --sl-color-accent: 124, 92, 252;
 }
 
 html {
@@ -47,28 +35,26 @@ body {
   @apply font-inter;
 }
 
-/* Marketing sections — scoped to NOT apply inside Starlight docs */
-section:not([data-starlight] *) {
+section {
   @apply flex flex-wrap justify-center px-4 md:px-8 xl:px-0;
   .container {
     @apply max-w-300 justify-center flex flex-wrap flex-col;
   }
 }
 
-/* Marketing heading styles — scoped to NOT apply inside docs */
-h1:not(.prose *):not([data-starlight] *) {
+h1 {
   @apply text-[26px] sm:text-[32px] md:text-[52px] xl:text-[64px] font-medium tracking-[-0.06em] leading-[1em];
 }
 
-h2:not(.prose *):not([data-starlight] *) {
+h2 {
   @apply text-xs md:text-sm font-medium uppercase font-geist-mono;
 }
 
-h3:not(.prose *):not([data-starlight] *) {
+h3 {
   @apply font-inter font-medium tracking-[-0.05em] text-[38px] lg:text-[56px] leading-[1em];
 }
 
-h4:not(.prose *):not([data-starlight] *) {
+h4 {
   @apply font-inter font-medium tracking-[-0.04em] text-[24px] md:text-[18px] lg:text-[24px] leading-[1em];
 }
 

@@ -1,10 +1,11 @@
-# Legacy VitePress path redirects
-/learn/* /docs/learn/:splat 301
-/getting-started/* /docs/getting-started/:splat 301
-/guides/* /docs/guides/:splat 301
-/concepts/* /docs/concepts/:splat 301
-/overview/* /docs/overview/:splat 301
-/reference/* /docs/reference/:splat 301
-/ev-abci/* /docs/ev-abci/:splat 301
-/ev-reth/* /docs/ev-reth/:splat 301
-/adr/* /docs/adr/:splat 301
+# Redirect docs paths to docs site
+/docs/* https://docs.evolve.com/:splat 301
+/learn/* https://docs.evolve.com/learn/:splat 301
+/getting-started/* https://docs.evolve.com/getting-started/:splat 301
+/guides/* https://docs.evolve.com/guides/:splat 301
+/concepts/* https://docs.evolve.com/concepts/:splat 301
+/overview/* https://docs.evolve.com/overview/:splat 301
+/reference/* https://docs.evolve.com/reference/:splat 301
+/ev-abci/* https://docs.evolve.com/ev-abci/:splat 301
+/ev-reth/* https://docs.evolve.com/ev-reth/:splat 301
+/adr/* https://docs.evolve.com/adr/:splat 301
