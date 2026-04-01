@@ -1,0 +1,22 @@
+---
+import MarketingLayout from '@/layouts/MarketingLayout.astro'
+import HomeHeroSection from '@/components/ui/sections/HomeHeroSection'
+import LogoSection from '@/components/ui/sections/LogoSection'
+import ValuePropSection from '@/components/ui/sections/ValuePropSection'
+import ArchitectureSection from '@/components/ui/sections/ArchitectureSection'
+import UseCasesSection from '@/components/ui/sections/UseCasesSection'
+import ComparisonSection from '@/components/ui/sections/ComparisonSection'
+import EcosystemSection from '@/components/ui/sections/EcosystemSection'
+---
+
+<MarketingLayout
+  title="Evolve"
+  description="A production stack on Celestia for teams building systems that need deterministic processing, policy controls, and always-on operations without being a tenant on shared chains.">
+  <HomeHeroSection client:load />
+  <LogoSection client:only="react" />
+  <ValuePropSection client:only="react" />
+  <ArchitectureSection client:only="react" />
+  <UseCasesSection client:only="react" />
+  <ComparisonSection client:only="react" />
+  <EcosystemSection client:only="react" />
+</MarketingLayout>

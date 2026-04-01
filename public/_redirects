@@ -1,0 +1,11 @@
+# Redirect docs paths to docs site
+/docs/* https://docs.ev.xyz/:splat 301
+/learn/* https://docs.ev.xyz/learn/:splat 301
+/getting-started/* https://docs.ev.xyz/getting-started/:splat 301
+/guides/* https://docs.ev.xyz/guides/:splat 301
+/concepts/* https://docs.ev.xyz/concepts/:splat 301
+/overview/* https://docs.ev.xyz/overview/:splat 301
+/reference/* https://docs.ev.xyz/reference/:splat 301
+/ev-abci/* https://docs.ev.xyz/ev-abci/:splat 301
+/ev-reth/* https://docs.ev.xyz/ev-reth/:splat 301
+/adr/* https://docs.ev.xyz/adr/:splat 301

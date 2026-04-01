@@ -1,6 +1,5 @@
 'use client'
 import { content } from '@/content/homepage/data'
-import Link from 'next/dist/client/link'
 import Button from '@/components/ui/molecules/Button'
 import { motion } from 'motion/react'
 import HeaderAnimation from '@/components/ui/molecules/HeaderAnimation'
@@ -15,8 +14,7 @@ const HomeHeroSection = () => {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.1 }}
             viewport={{ once: true }}
-            className={'flex justify-center'}
-          >
+            className={'flex justify-center'}>
             <div className={'aspect-120/43 w-full'}>
               <HeaderAnimation />
             </div>
@@ -27,8 +25,7 @@ const HomeHeroSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: 'easeInOut' }}
               viewport={{ once: true }}
-              className={'max-w-200 text-center'}
-            >
+              className={'max-w-200 text-center'}>
               {content.hero.title}
             </motion.h1>
           </div>
@@ -38,8 +35,7 @@ const HomeHeroSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
               viewport={{ once: true }}
-              className={'max-w-155 text-center text-(--darkgray) font-geist'}
-            >
+              className={'max-w-155 text-center text-(--darkgray) font-geist'}>
               {content.hero.text}
             </motion.p>
           </div>
@@ -52,11 +48,10 @@ const HomeHeroSection = () => {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.5, ease: 'easeInOut', delay: index * 0.1 + 0.3 }}
-                viewport={{ once: true }}
-              >
-                <Link href={cta.href}>
+                viewport={{ once: true }}>
+                <a href={cta.href}>
                   <Button variant={cta.variant}>{cta.text}</Button>
-                </Link>
+                </a>
               </motion.div>
             ))}
           </div>

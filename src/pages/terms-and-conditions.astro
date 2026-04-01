@@ -1,0 +1,12 @@
+---
+import MarketingLayout from '@/layouts/MarketingLayout.astro'
+import LegalPage from '@/components/ui/organisms/LegalPage'
+import EcosystemSection from '@/components/ui/sections/EcosystemSection'
+---
+
+<MarketingLayout
+  title="Terms & Conditions | Evolve"
+  description="Review the terms that govern the use of our website and services.">
+  <LegalPage fileName="terms-and-conditions.md" client:load />
+  <EcosystemSection client:visible />
+</MarketingLayout>

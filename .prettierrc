@@ -2,7 +2,8 @@
     "singleQuote": true,
     "arrowParens": "always",
     "trailingComma": "none",
-    "jsxBracketSameLine": true,
+    "bracketSameLine": true,
+    "plugins": ["prettier-plugin-astro"],
     "printWidth": 100,
     "tabWidth": 2,
     "semi": false
