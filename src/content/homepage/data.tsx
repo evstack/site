@@ -97,7 +97,7 @@ export const content = {
       {
         layername: '# BOTTOM',
         title: 'Celestia DA',
-        text: '(1GB/s Data Availability)'
+        text: '(1Tb/s Data Availability)'
       }
     ]
   },
