@@ -39,15 +39,15 @@ export const content = {
       },
       {
         title: 'Custom Rules & Policy Hooks',
-        text: 'Tune block times and throughput for workloads that require snappy UX and consistent inclusion.'
+        text: 'Implement permissions, sequencing policy, fees, and workflow enforcement (receipts, limits, exceptions).'
       },
       {
         title: 'Production Operations',
-        text: 'Tune block times and throughput for workloads that require snappy UX and consistent inclusion.'
+        text: 'Observability, upgrades, incident playbooks, and clear failure domains.'
       },
       {
         title: 'Celestia-Native Scale',
-        text: 'Tune block times and throughput for workloads that require snappy UX and consistent inclusion.'
+        text: 'Scale via Celestia DA; add private blockspace patterns when workflows require controlled visibility.'
       }
     ]
   },
@@ -97,7 +97,7 @@ export const content = {
       {
         layername: '# BOTTOM',
         title: 'Celestia DA',
-        text: '(1TB/s Data Availability)'
+        text: '(1Tb/s Data Availability)'
       }
     ]
   },
@@ -107,7 +107,7 @@ export const content = {
     stats: [
       {
         title: 'Powered Chains',
-        text: '50+',
+        text: '24/7',
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -202,7 +202,7 @@ export const content = {
             'Custom rules (permissions, spend limits, receipts)',
             'Deterministic processing (sequencing you can rely on)',
             'Always-on reliability (ops + failure isolation)',
-            'Always-on reliability (ops + failure isolation)'
+            'Predictable costs under load'
           ]
         },
         {
@@ -270,7 +270,7 @@ export const content = {
         text: 'Rust SDK for custom execution logic.'
       },
       {
-        title: 'ev-client',
+        title: 'ev-abci',
         text: 'CLI tools for testing and deployment.'
       }
     ],
