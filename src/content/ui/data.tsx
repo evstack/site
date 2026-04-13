@@ -2,7 +2,7 @@ export const uiData = {
   header: {
     cta: {
       text: 'Start building',
-      href: '/'
+      href: 'https://docs.ev.xyz'
     }
   },
   nav: [
