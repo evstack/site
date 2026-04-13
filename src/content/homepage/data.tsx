@@ -268,8 +268,8 @@ export const content = {
       },
       {
         title: 'ev-abci',
-        text: 'CLI tools for testing and deployment.'
-      }
+        text: 'Compatibility layer for Cosmos SDK execution environment.'
+      },
     ],
     cta: [
       {
