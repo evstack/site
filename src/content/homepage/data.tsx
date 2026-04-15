@@ -141,7 +141,7 @@ export const content = {
       }
     ],
     cta: {
-      href: '/',
+      href: 'https://docs.ev.xyz',
       text: 'Learn More'
     },
     boxes: [
@@ -273,17 +273,17 @@ export const content = {
     ],
     cta: [
       {
-        href: '/docs',
+        href: 'https://docs.ev.xyz',
         text: 'Read the docs',
         target: '_blank'
       },
       {
-        href: '/',
+        href: 'https://docs.ev.xyz',
         text: 'View Reference Architectures',
         target: '_blank'
       },
       {
-        href: '/',
+        href: 'mailto:alex@binary.builders',
         text: 'Talk to the Team',
         target: '_blank'
       }
@@ -316,7 +316,7 @@ export const content = {
           )
         },
         {
-          href: '/',
+          href: 'https://docs.ev.xyz',
           text: 'Docs',
           target: '_blank',
           icon: (
@@ -334,7 +334,7 @@ export const content = {
           )
         },
         {
-          href: '/',
+          href: 'https://x.com/ev_stack',
           text: 'X/Twitter',
           target: '_blank',
           icon: (
@@ -352,7 +352,7 @@ export const content = {
           )
         },
         {
-          href: '/',
+          href: 'mailto:alex@binary.builders',
           text: 'Contact',
           target: '_blank',
           icon: (
